@@ -18,7 +18,7 @@ namespace MailSender
         {
             this.Close();
         }
-
+        /*
         private void SendMailButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsAllFieldsFilled())
@@ -44,6 +44,6 @@ namespace MailSender
         private bool IsAllFieldsFilled()
         {
             return true;
-        }
+        }*/
     }
 }
