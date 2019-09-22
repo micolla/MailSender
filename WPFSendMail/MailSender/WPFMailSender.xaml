@@ -32,7 +32,7 @@
                 <ProgressBar Value="30" Width="60" Height="10"/>
             </StatusBarItem>
         </StatusBar>
-        <TabControl>
+        <TabControl Name="FormTabs">
             <TabItem Header="Формирование рассылки">
                 <Grid>
                     <Grid.Resources>
@@ -72,7 +72,7 @@
                         </ToolBar>
                         <ToolBar>
                             <TextBlock Text="Перейти в пларнировщик"/>
-                            <Button ToolTip="Планировщик">
+                            <Button ToolTip="Планировщик" Click="GoToShedullerButton_Click">
                                 <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
                             </Button>
                         </ToolBar>
@@ -112,13 +112,14 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid Grid.Row="1" 
+                    <DataGrid Grid.Row="1" Name="RecipientsGrid"
                               AutoGenerateColumns="False"
                               Width="Auto"
                               HeadersVisibility="Column"
                               IsReadOnly="True"
                               ItemsSource="{Binding Recipients,Source={StaticResource DataBase}}">
                         <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Выбрать"/>
                             <DataGridTextColumn Header="Id" Binding="{Binding recipient_id}"/>
                             <DataGridTextColumn Header="Имя" Binding="{Binding name}"/>
                             <DataGridTextColumn Header="Email" Binding="{Binding email}"/>
@@ -144,7 +145,9 @@
                                         <TextBlock Text="Отправить запланировано"/>
                                     </DockPanel>
                                 </Button>
-                                <Button ToolTip="Отправить сразу">
+                                <Button ToolTip="Отправить сразу"
+                                        Name="SendMail"
+                                        Click="SendMailButton_Click">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="SendOutline"/>
                                         <TextBlock Text="Отправить сразу"/>

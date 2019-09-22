@@ -2,6 +2,8 @@
 using System.Security;
 using System.Net;
 using System.Net.Mail;
+using MailSender.Lib.Data.Linq2SQL;
+using System.Linq;
 
 namespace MailSender.Lib
 {   
@@ -10,19 +12,42 @@ namespace MailSender.Lib
         string host;
         int port;
         string user_name;
-        SecureString password;
+        string password;
         string message;
         string subject;
-        public MailSenderService(string userName,SecureString password, string message,string subject)
+        string user_email;
+        public MailSenderService(Sender sender, string message,string subject):this(sender)
         {
-            this.host = SenderConfig.host;
-            this.port= SenderConfig.port;
-            this.user_name = userName;
-            this.password = password;
             this.message = message;
             this.subject = subject;
         }
-        public SentState SendMail()
+
+        public MailSenderService(Sender sender)
+        {
+            this.host = sender.smtp_address;
+            this.port = sender.smtp_port;
+            this.user_email = sender.email;
+            this.user_name = sender.login;
+            this.password = PasswordDecoder.getPassword(sender.password);
+            this.message = "не указан текст";
+            this.subject = "не указана тема";
+        }
+
+        public SentState SendMails(IQueryable<Recipient> recipients)
+        {
+            SentState tmpState = new SentState("Не указаны получатели", false);
+            if (recipients.Count() > 0)
+            {
+                foreach (var item in recipients)
+                {
+                    tmpState = SendMail(item.email, item.name);
+                    if (!tmpState.IsOk)
+                        throw new InvalidOperationException(tmpState.Message);
+                }
+            }
+            return tmpState;
+        }
+        public SentState SendMail(string recipientEmail,string recipientName)
         {
             try
             {
@@ -33,8 +58,8 @@ namespace MailSender.Lib
 
                     using (var message = new MailMessage() { Body = this.message, Subject = this.subject })
                     {
-                        message.From = new MailAddress(this.user_name + "@yandex.ru");
-                        message.To.Add(new MailAddress("micola8903@mail.ru"));
+                        message.From = new MailAddress(this.user_email);
+                        message.To.Add(new MailAddress(recipientEmail,recipientName));
 
                         client.Send(message);
                         return new SentState("Почта успешно отправлена", true);

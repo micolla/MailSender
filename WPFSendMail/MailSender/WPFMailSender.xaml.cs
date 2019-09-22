@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using MailSender.Lib;
+using MailSender.Lib.Data.Linq2SQL;
 
 namespace MailSender
 {
@@ -18,15 +20,21 @@ namespace MailSender
         {
             this.Close();
         }
-        /*
+
+        private void GoToShedullerButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.FormTabs.SelectedIndex = 1;
+        }
+
         private void SendMailButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsAllFieldsFilled())
             {
                 MailSenderService mailSenderService
-                    = new MailSenderService(UserNameEditor.Text, PasswordEditor.SecurePassword, MessageEditor.Text, SubjectEditor.Text);
+                    = new MailSenderService((Sender)this.SenderBox.SelectedItem);
 
-                SentState sentState = mailSenderService.SendMail();
+                SentState sentState 
+                    = mailSenderService.SendMails((IQueryable<Recipient>)this.RecipientsGrid.ItemsSource);
                 ShowState(sentState);
             }
         }
@@ -44,6 +52,6 @@ namespace MailSender
         private bool IsAllFieldsFilled()
         {
             return true;
-        }*/
+        }
     }
 }
