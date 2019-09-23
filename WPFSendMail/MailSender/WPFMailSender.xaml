@@ -137,9 +137,11 @@
                     <GroupBox Header="Управление" Grid.Column="0">
                         <StackPanel>
                             <TextBlock Text="Выберите дату"/>
-                            <Calendar SelectionMode="SingleDate"/>
+                            <Calendar Name="SendMailDatePicker" SelectionMode="SingleDate"/>
                             <StackPanel Margin="5">
-                                <Button ToolTip="Отправить запланировано">
+                                <Button Name="SendSheduledMail"
+                                    ToolTip="Отправить запланировано"
+                                        Click="SendSheduledMail_Click">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
                                         <TextBlock Text="Отправить запланировано"/>
@@ -202,8 +204,8 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Редактор писем"  IsEnabled="False">
-
+            <TabItem Header="Редактор писем">
+                <RichTextBox Name="MessageEditor"/>
             </TabItem>
             <TabItem Header="Статистика"  IsEnabled="False">
 

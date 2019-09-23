@@ -16,7 +16,13 @@ namespace MailSender.Lib
         string message;
         string subject;
         string user_email;
-        public MailSenderService(Sender sender, string message,string subject):this(sender)
+        IQueryable<Recipient> recipients;
+        public MailSenderService(Sender sender, string message,string subject, IQueryable<Recipient> recipients) 
+            :this(sender,message,subject)
+        {
+            this.recipients = recipients;
+        }
+        public MailSenderService(Sender sender, string message, string subject) : this(sender)
         {
             this.message = message;
             this.subject = subject;
@@ -32,7 +38,11 @@ namespace MailSender.Lib
             this.message = "не указан текст";
             this.subject = "не указана тема";
         }
-
+        /// <summary>
+        /// Отправка почты внешнему списку адресатов
+        /// </summary>
+        /// <param name="recipients">список адресатов</param>
+        /// <returns></returns>
         public SentState SendMails(IQueryable<Recipient> recipients)
         {
             SentState tmpState = new SentState("Не указаны получатели", false);
@@ -47,6 +57,15 @@ namespace MailSender.Lib
             }
             return tmpState;
         }
+        /// <summary>
+        /// Отправка писем внутреннему списку адресатов
+        /// </summary>
+        /// <returns></returns>
+        public SentState SendMails()
+        {
+            return SendMails(this.recipients);
+        }
+
         public SentState SendMail(string recipientEmail,string recipientName)
         {
             try
