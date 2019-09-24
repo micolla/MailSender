@@ -21,7 +21,7 @@ namespace MailSender
             Sheduler.MailIsSend += ShowState;
         }
 
-    private void ExitMenuItem_OnClick(object sender, RoutedEventArgs e)
+        private void ExitMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -38,7 +38,7 @@ namespace MailSender
                 TextRange textRange = new TextRange(MessageEditor.Document.ContentStart, MessageEditor.Document.ContentEnd);
                 if (!string.IsNullOrEmpty(textRange.Text))
                 {
-                    MailSenderService mailSenderService 
+                    MailSenderService mailSenderService
                         = new MailSenderService((Sender)this.SenderBox.SelectedItem, textRange.Text, "Empty subject");
 
                     SentState sentState
@@ -55,7 +55,7 @@ namespace MailSender
             WPFInformationMessage w = new WPFInformationMessage(sentState.IsOk ? "Успех!" : "Ошибка!", sentState.Message);
             w.ShowDialog();
         }
-        private static void ShowState(bool isOk,string Message)
+        private static void ShowState(bool isOk, string Message)
         {
             WPFInformationMessage w = new WPFInformationMessage(isOk ? "Успех!" : "Ошибка!", Message);
             w.ShowDialog();
@@ -72,8 +72,8 @@ namespace MailSender
 
         private void SendSheduledMail_Click(object sender, RoutedEventArgs e)
         {
-            if (!this.SendMailDatePicker.SelectedDate.HasValue
-                || this.SendMailDatePicker.SelectedDate.Value <= DateTime.Now.Date)
+            if (!this.SendMailDateTimePicker.Value.HasValue||
+                this.SendMailDateTimePicker.Value.Value <= DateTime.Now)
                 ShowState(false, "воспользуйтесь отправкой сразу");
             else
             {
@@ -84,7 +84,7 @@ namespace MailSender
                         = new MailSenderService((Sender)this.SenderBox.SelectedItem
                         , textRange.Text, "Empty subject"
                         , (IQueryable<Recipient>)this.RecipientsGrid.ItemsSource);
-                    Sheduler.AddTask(new Task(this.SendMailDatePicker.SelectedDate.Value
+                    Sheduler.AddTask(new Task(this.SendMailDateTimePicker.Value.Value
                     , mailSenderService));
                 }
             }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="MailSender.WPFMailSender"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:db="clr-namespace:MailSender.Lib.Data.Linq2SQL;assembly=MailSender.Lib"
         xmlns:local="clr-namespace:MailSender"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="MailSender.WPFMailSender"
         mc:Ignorable="d"
         Title="WpfMailSender " Height="450" Width="800" MinHeight="450" MinWidth="800">
     <DockPanel>
@@ -26,13 +27,13 @@
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem DockPanel.Dock="Right">
-                <TextBlock>Готов к труду и обороне!</TextBlock>
+                <TextBlock><Run Text="Готов к труду и обороне!"/></TextBlock>
             </StatusBarItem>
             <StatusBarItem>
                 <ProgressBar Value="30" Width="60" Height="10"/>
             </StatusBarItem>
         </StatusBar>
-        <TabControl Name="FormTabs">
+        <TabControl x:Name="FormTabs">
             <TabItem Header="Формирование рассылки">
                 <Grid>
                     <Grid.Resources>
@@ -45,8 +46,8 @@
                     <ToolBarTray Grid.Row="0">
                         <ToolBar>
                             <TextBlock Text="Выбрать отправителя"/>
-                            <ComboBox Name="SenderBox" MinWidth="70" MaxWidth="150"
-                                      ItemsSource="{Binding Sender,Source={StaticResource DataBase}}"
+                            <ComboBox x:Name="SenderBox" MinWidth="70" MaxWidth="150"
+                                      ItemsSource="{Binding Sender, Source={StaticResource DataBase}}"
                                       SelectedIndex="0"
                                       SelectedValuePath="{Binding sender_id}">
                                 <ComboBox.ItemTemplate>
@@ -54,7 +55,7 @@
                                         <StackPanel>
                                             <TextBlock Text="{Binding login}"/>
                                             <TextBlock 
-                                                Text="{Binding email,StringFormat=:{0}}"
+                                                Text="{Binding email, StringFormat=:\{0\}}"
                                                 Opacity="0.7"/>
                                         </StackPanel>
                                     </DataTemplate>
@@ -78,14 +79,14 @@
                         </ToolBar>
                         <ToolBar Band="1">
                             <TextBlock Text="Выбрать smtp-сервер"/>
-                            <ComboBox Name="ServerBox" MinWidth="70" MaxWidth="150"
-                                      ItemsSource="{Binding Server_smtp,Source={StaticResource DataBase}}"
+                            <ComboBox x:Name="ServerBox" MinWidth="70" MaxWidth="150"
+                                      ItemsSource="{Binding Server_smtp, Source={StaticResource DataBase}}"
                                       SelectedIndex="0"
                                       SelectedValuePath="{Binding server_id}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding address}" Margin="3,0,0,0" Opacity="0.6"
-                                                       ToolTip="{Binding port, StringFormat=Port:{0}}"/>
+                                                       ToolTip="{Binding port, StringFormat=Port:\{0\}}"/>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -112,12 +113,12 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid Grid.Row="1" Name="RecipientsGrid"
+                    <DataGrid Grid.Row="1" x:Name="RecipientsGrid"
                               AutoGenerateColumns="False"
                               Width="Auto"
                               HeadersVisibility="Column"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Recipients,Source={StaticResource DataBase}}">
+                              ItemsSource="{Binding Recipients, Source={StaticResource DataBase}}">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Header="Выбрать"/>
                             <DataGridTextColumn Header="Id" Binding="{Binding recipient_id}"/>
@@ -137,9 +138,9 @@
                     <GroupBox Header="Управление" Grid.Column="0">
                         <StackPanel>
                             <TextBlock Text="Выберите дату"/>
-                            <Calendar Name="SendMailDatePicker" SelectionMode="SingleDate"/>
+                            <xctk:DateTimePicker x:Name="SendMailDateTimePicker"/>
                             <StackPanel Margin="5">
-                                <Button Name="SendSheduledMail"
+                                <Button x:Name="SendSheduledMail"
                                     ToolTip="Отправить запланировано"
                                         Click="SendSheduledMail_Click">
                                     <DockPanel>
@@ -148,7 +149,7 @@
                                     </DockPanel>
                                 </Button>
                                 <Button ToolTip="Отправить сразу"
-                                        Name="SendMail"
+                                        x:Name="SendMail"
                                         Click="SendMailButton_Click">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="SendOutline"/>
@@ -205,11 +206,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Редактор писем">
-                <RichTextBox Name="MessageEditor"/>
+                <RichTextBox x:Name="MessageEditor"/>
             </TabItem>
-            <TabItem Header="Статистика"  IsEnabled="False">
-
-            </TabItem>
+            <TabItem Header="Статистика"  IsEnabled="False"/>
         </TabControl>
     </DockPanel>
 </Window>
