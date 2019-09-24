@@ -34,7 +34,7 @@ namespace MailSender.Lib
             this.port = sender.smtp_port;
             this.user_email = sender.email;
             this.user_name = sender.login;
-            this.password = PasswordDecoder.getPassword(sender.password);
+            this.password = sender.password;
             this.message = "не указан текст";
             this.subject = "не указана тема";
         }
@@ -74,7 +74,7 @@ namespace MailSender.Lib
                 {
                     client.EnableSsl = true;
                     client.Credentials = new NetworkCredential(user_name, password);
-
+                    //client.Credentials = new NetworkCredential(user_name, PasswordDecoder.getPassword(password));
                     using (var message = new MailMessage() { Body = this.message, Subject = this.subject })
                     {
                         message.From = new MailAddress(this.user_email);

@@ -30,7 +30,11 @@ namespace MailSender
         {
             this.FormTabs.SelectedIndex = 1;
         }
-
+        /// <summary>
+        /// Моментальная отправка письма
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SendMailButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsAllFieldsFilled())
@@ -69,10 +73,14 @@ namespace MailSender
         {
             return true;
         }
-
+        /// <summary>
+        /// Запланировать отправку письма
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SendSheduledMail_Click(object sender, RoutedEventArgs e)
         {
-            if (!this.SendMailDateTimePicker.Value.HasValue||
+            if (!this.SendMailDateTimePicker.Value.HasValue ||
                 this.SendMailDateTimePicker.Value.Value <= DateTime.Now)
                 ShowState(false, "воспользуйтесь отправкой сразу");
             else
