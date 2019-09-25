@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0" Text="{Binding LabelText}"/>
         <ComboBox Grid.Column="1" Name="SenderBox" MinWidth="70" MaxWidth="150"
-                                      ItemsSource="{Binding ItemsSource}"
+                                      ItemsSource="{Binding ItemSource}"
                                       SelectedIndex="0"
                                       SelectedValuePath="{Binding SelectedValuePath}">
             <ComboBox.ItemTemplate>
