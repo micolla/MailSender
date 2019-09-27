@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace MailSender.Lib.Services.Interfaces
 {
-    public interface ISenderDataProvider
+    public interface IDataProvider<T>
     {
-        IEnumerable<Sender> GetAll();
+        IEnumerable<T> GetAll();
 
-        int AddSender(Sender sender);
-        int UpdateSender(Sender sender);
-        int DeleteSender(Sender sender);
+        int Add(T sender);
+        int Update(T sender);
+        int Delete(T sender);
 
         void SaveChanges();
     }

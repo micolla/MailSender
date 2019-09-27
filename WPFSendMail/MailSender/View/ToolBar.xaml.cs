@@ -60,14 +60,15 @@ namespace MailSender.View
         /// <summary>
         /// Отображаемое поле для пользователя в ComboBox
         /// </summary>
-        public int SelectedItemIndex
-        {
-            get { return (int)GetValue(SelectedItemIndexProperty); }
-            set { SetValue(SelectedItemIndexProperty, value); }
-        }
+        //public int SelectedItemIndex
+        //{
+        //    get { return (int)GetValue(SelectedItemIndexProperty); }
+        //    set { SetValue(SelectedItemIndexProperty, value); }
+        //}
 
-        public static readonly DependencyProperty SelectedItemIndexProperty =
-            DependencyProperty.Register("SelectedItemIndex", typeof(int), typeof(ToolBar),new PropertyMetadata(null));
+        //public static readonly DependencyProperty SelectedItemIndexProperty =
+        //    DependencyProperty.Register("SelectedItemIndex", typeof(int), typeof(ToolBar)
+        //        , new FrameworkPropertyMetadata(default(int), flags: FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion 
         #region ViewPropertyPath
         /// <summary>

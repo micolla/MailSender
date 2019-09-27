@@ -37,83 +37,32 @@
         </StatusBar>
         <TabControl x:Name="FormTabs">
             <TabItem Header="Формирование рассылки">
-                <Grid>
-                    <Grid.Resources>
-                        <db:MailSenderDBDataContext x:Key="DataBase"/>
-                    </Grid.Resources>
+                <Grid Height="353" Margin="0,0,0.333,-0.333" VerticalAlignment="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <ToolBarTray Grid.Row="0">
-                        <ToolBar Band="2">
-                            <ctrl:ToolBar LabelText="Выбрать отправителя" 
+                    <ToolBarTray Grid.Row="0" Height="65">
+                        <ToolBar Band="0">
+                            <StackPanel Orientation="Horizontal">
+                                <ctrl:ToolBar LabelText="Выбрать отправителя" x:Name="SenderBox"
                                           ItemSource="{Binding Senders}"
-                                          SelectedItem="{Binding SelectedSender}">
-                                <ctrl:ToolBar.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type db:Sender}">
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding login}"/>
-                                            <TextBlock Text="{Binding email, StringFormat=:\{0\}}" Opacity="0.7"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ctrl:ToolBar.ItemTemplate>
-                            </ctrl:ToolBar>
+                                          SelectedItem="{Binding SelectedSender,Mode=TwoWay}">
+                                    <ctrl:ToolBar.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type db:Sender}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding login}"/>
+                                                <TextBlock Text="{Binding email, StringFormat=:\{0\}}" Opacity="0.7"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ctrl:ToolBar.ItemTemplate>
+                                </ctrl:ToolBar>
+                            </StackPanel>
                         </ToolBar>
-                        <ToolBar>
-                            <TextBlock Text="Выбрать отправителя"/>
-                            <ComboBox x:Name="SenderBox" MinWidth="70" MaxWidth="150"
-                                      ItemsSource="{Binding Sender, Source={StaticResource DataBase}}"
-                                      SelectedIndex="0"
-                                      SelectedValuePath="{Binding sender_id}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type db:Sender}">
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding login}"/>
-                                            <TextBlock 
-                                                Text="{Binding email, StringFormat=:\{0\}}"
-                                                Opacity="0.7"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <Button ToolTip="Добавить">
-                                <fa:ImageAwesome Height="18" Icon="Plus"/>
-                            </Button>
-                            <Button ToolTip="Изменить">
-                                <fa:ImageAwesome Height="18" Icon="Edit"/>
-                            </Button>
-                            <Button ToolTip="Удалить">
-                                <fa:ImageAwesome Height="18" Icon="TrashOutline"/>
-                            </Button>
-                        </ToolBar>
-                        <ToolBar>
+                        <ToolBar Band="1">
                             <TextBlock Text="Перейти в пларнировщик"/>
                             <Button ToolTip="Планировщик" Click="GoToShedullerButton_Click">
                                 <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
-                            </Button>
-                        </ToolBar>
-                        <ToolBar Band="1">
-                            <TextBlock Text="Выбрать smtp-сервер"/>
-                            <ComboBox x:Name="ServerBox" MinWidth="70" MaxWidth="150"
-                                      ItemsSource="{Binding Server_smtp, Source={StaticResource DataBase}}"
-                                      SelectedIndex="0"
-                                      SelectedValuePath="{Binding server_id}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding address}" Margin="3,0,0,0" Opacity="0.6"
-                                                       ToolTip="{Binding port, StringFormat=Port:\{0\}}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <Button ToolTip="Добавить">
-                                <fa:ImageAwesome Height="18" Icon="Plus"/>
-                            </Button>
-                            <Button ToolTip="Изменить">
-                                <fa:ImageAwesome Height="18" Icon="Edit"/>
-                            </Button>
-                            <Button ToolTip="Удалить">
-                                <fa:ImageAwesome Height="18" Icon="TrashOutline"/>
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1">
@@ -128,16 +77,13 @@
                                 <fa:ImageAwesome Height="18" Icon="TrashOutline"/>
                             </Button>
                         </ToolBar>
-                        <ToolBar Band="2">
-                            <Button Content ="dsds" Command="{Binding RefreshDateCommand}"/>
-                        </ToolBar>
                     </ToolBarTray>
                     <DataGrid Grid.Row="1" x:Name="RecipientsGrid"
                               AutoGenerateColumns="False"
                               Width="Auto"
                               HeadersVisibility="Column"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Recipients, Source={StaticResource DataBase}}">
+                              ItemsSource="{Binding Recipients}">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Header="Выбрать"/>
                             <DataGridTextColumn Header="Id" Binding="{Binding recipient_id}"/>

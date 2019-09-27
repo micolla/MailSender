@@ -20,8 +20,7 @@
                 ItemsSource="{Binding ItemSource}"
                 SelectedValuePath="{Binding SelectedValuePath}"
                 DisplayMemberPath="{Binding ViewPropertyPath}"
-                SelectedItem="{Binding SelectedItem}"
-                
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                 ItemTemplate="{Binding ItemTemplate}"/>
         <Button Grid.Column="2" ToolTip="Добавить" Command="{Binding AddCommand}">
             <fa:ImageAwesome Height="18" Icon="Plus"/>

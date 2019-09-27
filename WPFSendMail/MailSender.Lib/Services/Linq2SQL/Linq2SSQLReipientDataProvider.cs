@@ -8,28 +8,28 @@ using MailSender.Lib.Services.Interfaces;
 
 namespace MailSender.Lib.Services.Linq2SQL
 {
-    public class Linq2SSQLSenderDataProvider : IDataProvider<Sender>
+    public class Linq2SSQLReipientDataProvider : IDataProvider<Recipient>
     {
         private readonly MailSenderDBDataContext _db;
 
-        public Linq2SSQLSenderDataProvider(MailSenderDBDataContext mailSenderDBDataContext)
+        public Linq2SSQLReipientDataProvider(MailSenderDBDataContext mailSenderDBDataContext)
         {
             _db = mailSenderDBDataContext;
         }
-        public int Add(Sender sender)
+        public int Add(Recipient sender)
         {
             throw new NotImplementedException();
         }
 
-        public int Delete(Sender sender)
+        public int Delete(Recipient sender)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Sender> GetAll()
+        public IEnumerable<Recipient> GetAll()
         {
             _db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues);
-            return _db.Sender.ToArray();
+            return _db.Recipient.ToArray();
         }
 
         public void SaveChanges()
@@ -37,13 +37,13 @@ namespace MailSender.Lib.Services.Linq2SQL
             _db.SubmitChanges();
         }
 
-        public int Update(Sender sender)
+        public int Update(Recipient recipient)
         {
-            if (sender == null)
-                throw new ArgumentNullException(nameof(sender));
-            _db.Sender.InsertOnSubmit(sender);
+            if (recipient == null)
+                throw new ArgumentNullException(nameof(recipient));
+            _db.Recipient.InsertOnSubmit(recipient);
             SaveChanges();
-            return sender.sender_id;
+            return recipient.recipient_id;
         }
     }
 }

@@ -64,7 +64,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SentState.cs" />
-    <Compile Include="Services\Interfaces\ISenderDataProvider.cs" />
+    <Compile Include="Services\Interfaces\IDataProvider.cs" />
+    <Compile Include="Services\Linq2SQL\Linq2SSQLReipientDataProvider.cs" />
     <Compile Include="Services\Linq2SQL\Linq2SSQLSenderDataProvider.cs" />
     <Compile Include="Task.cs" />
   </ItemGroup>
