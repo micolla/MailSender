@@ -36,6 +36,9 @@ namespace MailSender.Lib.Data.Linq2SQL
     partial void InsertRecipient(Recipient instance);
     partial void UpdateRecipient(Recipient instance);
     partial void DeleteRecipient(Recipient instance);
+    partial void InsertSender(Sender instance);
+    partial void UpdateSender(Sender instance);
+    partial void DeleteSender(Sender instance);
     #endregion
 		
 		public MailSenderDBDataContext() : 
@@ -76,19 +79,19 @@ namespace MailSender.Lib.Data.Linq2SQL
 			}
 		}
 		
-		public System.Data.Linq.Table<Sender> Sender
-		{
-			get
-			{
-				return this.GetTable<Sender>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Recipient> Recipient
 		{
 			get
 			{
 				return this.GetTable<Recipient>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Sender> Sender
+		{
+			get
+			{
+				return this.GetTable<Sender>();
 			}
 		}
 	}
@@ -203,141 +206,6 @@ namespace MailSender.Lib.Data.Linq2SQL
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.v_sender")]
-	public partial class Sender
-	{
-		
-		private int _sender_id;
-		
-		private string _login;
-		
-		private string _password;
-		
-		private string _email;
-		
-		private System.Nullable<int> _server_server_id;
-		
-		private string _smtp_address;
-		
-		private int _smtp_port;
-		
-		public Sender()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sender_id", DbType="Int NOT NULL")]
-		public int sender_id
-		{
-			get
-			{
-				return this._sender_id;
-			}
-			set
-			{
-				if ((this._sender_id != value))
-				{
-					this._sender_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_login", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string login
-		{
-			get
-			{
-				return this._login;
-			}
-			set
-			{
-				if ((this._login != value))
-				{
-					this._login = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
-		public string password
-		{
-			get
-			{
-				return this._password;
-			}
-			set
-			{
-				if ((this._password != value))
-				{
-					this._password = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(255)")]
-		public string email
-		{
-			get
-			{
-				return this._email;
-			}
-			set
-			{
-				if ((this._email != value))
-				{
-					this._email = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_server_server_id", DbType="Int")]
-		public System.Nullable<int> server_server_id
-		{
-			get
-			{
-				return this._server_server_id;
-			}
-			set
-			{
-				if ((this._server_server_id != value))
-				{
-					this._server_server_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_smtp_address", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string smtp_address
-		{
-			get
-			{
-				return this._smtp_address;
-			}
-			set
-			{
-				if ((this._smtp_address != value))
-				{
-					this._smtp_address = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_smtp_port", DbType="Int NOT NULL")]
-		public int smtp_port
-		{
-			get
-			{
-				return this._smtp_port;
-			}
-			set
-			{
-				if ((this._smtp_port != value))
-				{
-					this._smtp_port = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Recipient")]
 	public partial class Recipient : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -447,6 +315,140 @@ namespace MailSender.Lib.Data.Linq2SQL
 					this._description = value;
 					this.SendPropertyChanged("description");
 					this.OndescriptionChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Sender")]
+	public partial class Sender : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _sender_id;
+		
+		private string _login;
+		
+		private string _password;
+		
+		private string _email;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onsender_idChanging(int value);
+    partial void Onsender_idChanged();
+    partial void OnloginChanging(string value);
+    partial void OnloginChanged();
+    partial void OnpasswordChanging(string value);
+    partial void OnpasswordChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
+    #endregion
+		
+		public Sender()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sender_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int sender_id
+		{
+			get
+			{
+				return this._sender_id;
+			}
+			set
+			{
+				if ((this._sender_id != value))
+				{
+					this.Onsender_idChanging(value);
+					this.SendPropertyChanging();
+					this._sender_id = value;
+					this.SendPropertyChanged("sender_id");
+					this.Onsender_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_login", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string login
+		{
+			get
+			{
+				return this._login;
+			}
+			set
+			{
+				if ((this._login != value))
+				{
+					this.OnloginChanging(value);
+					this.SendPropertyChanging();
+					this._login = value;
+					this.SendPropertyChanged("login");
+					this.OnloginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this.OnpasswordChanging(value);
+					this.SendPropertyChanging();
+					this._password = value;
+					this.SendPropertyChanged("password");
+					this.OnpasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(255)")]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this.OnemailChanging(value);
+					this.SendPropertyChanging();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
 				}
 			}
 		}
