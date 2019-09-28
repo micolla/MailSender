@@ -5,18 +5,21 @@ using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using System;
+using MailSender.View;
 
 namespace MailSender.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        #region ChildVM
+        #endregion
         public MainViewModel(IDataProvider<Sender> senderDataProvider, IDataProvider<Recipient> recipientDataProvider)
         {
             #region Senders
             _senderDataProvider = senderDataProvider;
             RefreshSenders();
             RefreshSendersCommand = new RelayCommand(OnRefreshSenderCommand);
-            AddSenderCommand = new RelayCommand<Sender>(OnAddSenderCommand);
+            AddSenderCommand = new RelayCommand(OnAddSenderCommand);
             UpdateSenderCommand = new RelayCommand<Sender>(OnUpdateSenderCommand);
             DeleteSenderCommand = new RelayCommand<Sender>(OnDeleteSenderCommand);
             #endregion
@@ -32,7 +35,7 @@ namespace MailSender.ViewModel
         #region Senders
         private IDataProvider<Sender> _senderDataProvider;
         private ObservableCollection<Sender> _Senders = new ObservableCollection<Sender>();
-
+        internal bool SenderChangeOK = false;
         public ObservableCollection<Sender> Senders
         {
             get => _Senders;
@@ -49,8 +52,23 @@ namespace MailSender.ViewModel
             set => Set(ref _SelectedSender, value);
         }
         private void OnRefreshSenderCommand() => RefreshSenders();
-        private void OnAddSenderCommand(Sender sender) => _senderDataProvider.Add(sender);
-        public void OnUpdateSenderCommand(Sender sender) => _senderDataProvider.Update(sender);
+        private void OnAddSenderCommand()
+        {
+            Sender newSender = new Sender();
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(newSender);
+            senderEditorWindow.ShowDialog();
+            if (senderEditorWindow.DialogResult.HasValue&& senderEditorWindow.DialogResult.Value)
+            {
+                _senderDataProvider.Add(newSender);
+                _senderDataProvider.SaveChanges();
+                SenderChangeOK = false;
+            }
+        }
+        public void OnUpdateSenderCommand(Sender sender)
+        {
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(sender);
+            senderEditorWindow.ShowDialog();
+        }
         public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender);
 
         public ICommand RefreshSendersCommand {get;}
@@ -88,7 +106,7 @@ namespace MailSender.ViewModel
         }
         private void OnRefreshRecipientCommand() => RefreshRecipients();
         private void OnAddRecipientCommand(Recipient recipient) => _recipientDataProvider.Add(recipient);
-        public void OnUpdateRecipientCommand(Recipient recipient) => _recipientDataProvider.Update(recipient);
+        public void OnUpdateRecipientCommand(Recipient recipient) => throw new NotImplementedException("OnUpdateRecipientCommand");
         public void OnDeleteRecipientCommand(Recipient recipient) => _recipientDataProvider.Delete(recipient);
 
         public ICommand RefreshRecipientsCommand { get; }
@@ -104,9 +122,6 @@ namespace MailSender.ViewModel
             foreach (var recipient in _recipientDataProvider.GetAll())
                 recipients.Add(recipient);
         }
-        #endregion
-        #region Smtp_Servers
-        public string Smtp_Server => SelectedSender?.smtp_address??"--";
         #endregion
     }
 }

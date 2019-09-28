@@ -30,8 +30,8 @@ namespace MailSender.Lib
 
         public MailSenderService(Sender sender)
         {
-            this.host = sender.smtp_address;
-            this.port = sender.smtp_port;
+            //this.host = sender.smtp_address;
+            //this.port = sender.smtp_port;
             this.user_email = sender.email;
             this.user_name = sender.login;
             this.password = sender.password;

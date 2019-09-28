@@ -44,13 +44,16 @@ namespace MailSender.ViewModel
             ////}
 
             services.Register<MainViewModel>();
+            services.Register<SenderEditorViewModel>();
             services.Register<IDataProvider<Sender>, Linq2SSQLSenderDataProvider>();
             services.Register<IDataProvider<Recipient>, Linq2SSQLReipientDataProvider>();
-            services.Register(() => new MailSenderDBDataContext());
+            if (!services.IsRegistered<MailSenderDBDataContext>())
+                services.Register(() => new MailSenderDBDataContext());            
         }
 
         public MainViewModel MainViewModel=>ServiceLocator.Current.GetInstance<MainViewModel>();
-        
+        public SenderEditorViewModel SenderEditorVM => ServiceLocator.Current.GetInstance<SenderEditorViewModel>();
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

@@ -18,7 +18,8 @@ namespace MailSender.Lib.Services.Linq2SQL
         }
         public int Add(Sender sender)
         {
-            throw new NotImplementedException();
+            _db.Sender.InsertOnSubmit(sender);
+            return sender.sender_id;
         }
 
         public int Delete(Sender sender)
@@ -35,15 +36,6 @@ namespace MailSender.Lib.Services.Linq2SQL
         public void SaveChanges()
         {
             _db.SubmitChanges();
-        }
-
-        public int Update(Sender sender)
-        {
-            if (sender == null)
-                throw new ArgumentNullException(nameof(sender));
-            _db.Sender.InsertOnSubmit(sender);
-            SaveChanges();
-            return sender.sender_id;
         }
     }
 }

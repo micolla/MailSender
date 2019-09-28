@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:db="clr-namespace:MailSender.Lib.Data.Linq2SQL;assembly=MailSender.Lib"
         xmlns:local="clr-namespace:MailSender"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="MailSender.WPFMailSender"
         xmlns:ctrl="clr-namespace:MailSender.View"
@@ -35,31 +34,19 @@
                 <ProgressBar Value="30" Width="60" Height="10"/>
             </StatusBarItem>
         </StatusBar>
-        <TabControl x:Name="FormTabs">
+        <TabControl Name="FormTabs">
             <TabItem Header="Формирование рассылки">
-                <Grid Height="353" Margin="0,0,0.333,-0.333" VerticalAlignment="Bottom">
+                <Grid Height="353">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <ToolBarTray Grid.Row="0" Height="65">
-                        <ToolBar Band="0">
-                            <StackPanel Orientation="Horizontal">
-                                <ctrl:ToolBar LabelText="Выбрать отправителя" x:Name="SenderBox"
-                                          ItemSource="{Binding Senders}"
-                                          SelectedItem="{Binding SelectedSender,Mode=TwoWay}">
-                                    <ctrl:ToolBar.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type db:Sender}">
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding login}"/>
-                                                <TextBlock Text="{Binding email, StringFormat=:\{0\}}" Opacity="0.7"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ctrl:ToolBar.ItemTemplate>
-                                </ctrl:ToolBar>
-                            </StackPanel>
+                    <ToolBarTray Grid.Row="0">
+                        <ToolBar>
+                            <ctrl:ToolBar />
+                            
                         </ToolBar>
-                        <ToolBar Band="1">
+                        <ToolBar>
                             <TextBlock Text="Перейти в пларнировщик"/>
                             <Button ToolTip="Планировщик" Click="GoToShedullerButton_Click">
                                 <fa:ImageAwesome Height="18" Icon="ClockOutline"/>

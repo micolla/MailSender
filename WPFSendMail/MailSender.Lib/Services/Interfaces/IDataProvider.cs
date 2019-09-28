@@ -12,7 +12,6 @@ namespace MailSender.Lib.Services.Interfaces
         IEnumerable<T> GetAll();
 
         int Add(T sender);
-        int Update(T sender);
         int Delete(T sender);
 
         void SaveChanges();
