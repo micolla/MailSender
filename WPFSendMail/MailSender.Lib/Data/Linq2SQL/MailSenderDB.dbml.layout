@@ -14,10 +14,10 @@
         <elementListCompartment Id="626e5414-eb32-4740-9f87-b0939c1912bb" absoluteBounds="3.5149999999999997, 1.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="ab26069d-3d3e-494b-a4ae-77c892aa07ee" absoluteBounds="0.5, 1, 2, 1.5785953776041666">
+    <classShape Id="ab26069d-3d3e-494b-a4ae-77c892aa07ee" absoluteBounds="0.5, 1, 2, 1.7708968098958331">
       <DataClassMoniker Name="/MailSenderDBDataContext/Sender" />
       <nestedChildShapes>
-        <elementListCompartment Id="ce57ca57-2388-4b0a-ad4d-5224e4a39afe" absoluteBounds="0.51499999999999968, 1.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ce57ca57-2388-4b0a-ad4d-5224e4a39afe" absoluteBounds="0.51499999999999968, 1.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

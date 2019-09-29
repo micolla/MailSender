@@ -1,4 +1,4 @@
-﻿using MailSender.Lib.Data.Linq2SQL;
+﻿using MailSender.Lib.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

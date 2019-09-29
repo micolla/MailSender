@@ -21,6 +21,7 @@
       <Column Name="login" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="email" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Member="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

@@ -1,5 +1,5 @@
 using GalaSoft.MvvmLight;
-using MailSender.Lib.Services.Interfaces;
+using MailSender.Lib.DataProviders.Interfaces;
 using MailSender.Lib.Data.Linq2SQL;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;

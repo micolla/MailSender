@@ -354,6 +354,8 @@ namespace MailSender.Lib.Data.Linq2SQL
 		
 		private string _email;
 		
+		private string _name;
+		
     #region Определения метода расширяемости
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -366,6 +368,8 @@ namespace MailSender.Lib.Data.Linq2SQL
     partial void OnpasswordChanged();
     partial void OnemailChanging(string value);
     partial void OnemailChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
     #endregion
 		
 		public Sender()
@@ -449,6 +453,26 @@ namespace MailSender.Lib.Data.Linq2SQL
 					this._email = value;
 					this.SendPropertyChanged("email");
 					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
 				}
 			}
 		}

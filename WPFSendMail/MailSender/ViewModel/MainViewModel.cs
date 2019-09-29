@@ -1,11 +1,11 @@
 using GalaSoft.MvvmLight;
-using MailSender.Lib.Services.Interfaces;
-using MailSender.Lib.Data.Linq2SQL;
+using MailSender.Lib.Entity;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using System;
 using MailSender.View;
+using MailSender.Lib.DataProviders.Interfaces;
 
 namespace MailSender.ViewModel
 {
@@ -13,7 +13,7 @@ namespace MailSender.ViewModel
     {
         #region ChildVM
         #endregion
-        public MainViewModel(IDataProvider<Sender> senderDataProvider, IDataProvider<Recipient> recipientDataProvider)
+        public MainViewModel(ISenderDataProvider senderDataProvider, IRecipientDataProvider recipientDataProvider)
         {
             #region Senders
             _senderDataProvider = senderDataProvider;
@@ -33,7 +33,7 @@ namespace MailSender.ViewModel
             #endregion
         }
         #region Senders
-        private IDataProvider<Sender> _senderDataProvider;
+        private ISenderDataProvider _senderDataProvider;
         private ObservableCollection<Sender> _Senders = new ObservableCollection<Sender>();
         internal bool SenderChangeOK = false;
         public ObservableCollection<Sender> Senders
@@ -69,7 +69,7 @@ namespace MailSender.ViewModel
             SenderEditorWindow senderEditorWindow = new SenderEditorWindow(sender);
             senderEditorWindow.ShowDialog();
         }
-        public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender);
+        public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender.Id,sender);
 
         public ICommand RefreshSendersCommand {get;}
         public ICommand AddSenderCommand { get; }
@@ -86,7 +86,7 @@ namespace MailSender.ViewModel
         }
         #endregion
         #region Recipients
-        private IDataProvider<Recipient> _recipientDataProvider;
+        private IRecipientDataProvider _recipientDataProvider;
         private ObservableCollection<Recipient> _Recipients = new ObservableCollection<Recipient>();
 
         public ObservableCollection<Recipient> Recipients
@@ -107,7 +107,7 @@ namespace MailSender.ViewModel
         private void OnRefreshRecipientCommand() => RefreshRecipients();
         private void OnAddRecipientCommand(Recipient recipient) => _recipientDataProvider.Add(recipient);
         public void OnUpdateRecipientCommand(Recipient recipient) => throw new NotImplementedException("OnUpdateRecipientCommand");
-        public void OnDeleteRecipientCommand(Recipient recipient) => _recipientDataProvider.Delete(recipient);
+        public void OnDeleteRecipientCommand(Recipient recipient) => _recipientDataProvider.Delete(recipient.Id,recipient);
 
         public ICommand RefreshRecipientsCommand { get; }
         public ICommand AddRecipientCommand { get; }
