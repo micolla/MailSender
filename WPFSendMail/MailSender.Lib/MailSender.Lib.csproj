@@ -54,6 +54,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MailSenderDB.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entity\Base\BaseEntity.cs" />
+    <Compile Include="Entity\Base\HumanEntity.cs" />
+    <Compile Include="Entity\Base\NamedEntity.cs" />
+    <Compile Include="Entity\Recipient.cs" />
+    <Compile Include="Entity\Sender.cs" />
+    <Compile Include="Entity\SMTPServer.cs" />
     <Compile Include="MailSenderService.cs" />
     <Compile Include="MailSheduler.cs" />
     <Compile Include="PasswordDecoder.cs" />
@@ -84,9 +90,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entity\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
