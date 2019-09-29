@@ -12,9 +12,11 @@ namespace MailSender.ViewModel
     public class MainViewModel : ViewModelBase
     {
         #region ChildVM
+        SenderEditorViewModel SenderEditorVM;
         #endregion
         public MainViewModel(IDataProvider<Sender> senderDataProvider, IDataProvider<Recipient> recipientDataProvider)
         {
+            SenderEditorVM = new SenderEditorViewModel(this);
             #region Senders
             _senderDataProvider = senderDataProvider;
             RefreshSenders();
@@ -55,9 +57,10 @@ namespace MailSender.ViewModel
         private void OnAddSenderCommand()
         {
             Sender newSender = new Sender();
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(newSender);
+            SenderEditorVM.Sender = newSender;
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow();
             senderEditorWindow.ShowDialog();
-            if (senderEditorWindow.DialogResult.HasValue&& senderEditorWindow.DialogResult.Value)
+            if (SenderChangeOK)
             {
                 _senderDataProvider.Add(newSender);
                 _senderDataProvider.SaveChanges();
@@ -66,7 +69,8 @@ namespace MailSender.ViewModel
         }
         public void OnUpdateSenderCommand(Sender sender)
         {
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(sender);
+            SenderEditorVM.Sender = sender;
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow();
             senderEditorWindow.ShowDialog();
         }
         public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender);

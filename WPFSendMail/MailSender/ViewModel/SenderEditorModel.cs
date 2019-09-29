@@ -22,12 +22,8 @@ namespace MailSender.ViewModel
             get => _Sender;
             set => Set(ref _Sender, value);
         }
-        public string SenderName
-        {
-            get => Sender.login;
-        }
         public string UserPassword {
-            get => "11";// PasswordDecoder.getPassword(Sender.password)??String.Empty;
+            get => PasswordDecoder.getPassword(Sender?.password ?? String.Empty);
             set=>Sender.password=PasswordDecoder.getCodPassword(value);
         }
 

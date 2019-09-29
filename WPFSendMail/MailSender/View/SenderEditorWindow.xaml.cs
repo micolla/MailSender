@@ -20,21 +20,9 @@ namespace MailSender.View
     /// </summary>
     public partial class SenderEditorWindow : Window
     {
-        Sender Sender;
-        public SenderEditorWindow(Sender sender)
+        public SenderEditorWindow()
         {
             InitializeComponent();
-            Sender = sender;
-            DataContext = Sender;
-        }
-
-        private void OnSaveButton(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
-        private void OnCancelButton(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
         }
     }
 }
