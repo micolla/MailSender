@@ -43,14 +43,41 @@
                     </Grid.RowDefinitions>
                     <ToolBarTray Grid.Row="0">
                         <ToolBar>
-                            <ctrl:ToolBar />
-                            
+                            <ctrl:ListController PanelName="Отправители" 
+                                                 Items="{Binding Senders}"
+                                                 CreateCommand="{Binding AddSenderCommand}"
+                                                 EditCommand="{Binding UpdateSenderCommand}"
+                                                 DeleteCommand="{Binding DeleteSenderCommand}"
+                                                 SelectedItem="{Binding SelectedSender}">
+                                <ctrl:ListController.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Login}" Margin="3,0,0,0" Opacity="0.6"/>
+                                            <TextBlock Text="{Binding Email, StringFormat=:{0}}" Opacity="0.6"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ctrl:ListController.ItemTemplate>
+                            </ctrl:ListController>
                         </ToolBar>
                         <ToolBar>
                             <TextBlock Text="Перейти в пларнировщик"/>
                             <Button ToolTip="Планировщик" Click="GoToShedullerButton_Click">
                                 <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
                             </Button>
+                        </ToolBar>
+                        <ToolBar Band="1">
+                            <ctrl:ListController PanelName="Сервера" 
+                                                 Items="{Binding Servers}"
+                                                 SelectedItem="{Binding SelectedServer}">
+                                <ctrl:ListController.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Address}" Margin="3,0,0,0" Opacity="0.6"/>
+                                            <TextBlock Text="{Binding Port, StringFormat=:{0}}" Opacity="0.6"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ctrl:ListController.ItemTemplate>
+                            </ctrl:ListController>
                         </ToolBar>
                         <ToolBar Band="1">
                             <TextBlock Text="Список адресатов"/>
@@ -73,10 +100,10 @@
                               ItemsSource="{Binding Recipients}">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Header="Выбрать"/>
-                            <DataGridTextColumn Header="Id" Binding="{Binding recipient_id}"/>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding name}"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding email}"/>
-                            <DataGridTextColumn Header="описание" Binding="{Binding description}"/>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="описание" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

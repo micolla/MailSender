@@ -47,13 +47,22 @@ namespace MailSender.ViewModel
             get => _Servers;
             set => Set(ref _Servers, value);
         }
+        /// <summary>Выбранный отправитель</summary>
+        private SMTPServer _SelectedServer;
+
+        /// <summary>Выбранный отправитель</summary>
+        public SMTPServer SelectedServer
+        {
+            get => _SelectedServer;
+            set => Set(ref _SelectedServer, value);
+        }
         public ICommand AddServerCommand { get; }
         public ICommand UpdateServerCommand { get; }
         public ICommand DeleteServerCommand { get; }
         private void RefreshServers()
         {
             var servers = Servers;
-            Senders.Clear();
+            Servers.Clear();
             foreach (var server in _serverDataProvider.GetAll())
                 servers.Add(server);
         }
@@ -104,7 +113,6 @@ namespace MailSender.ViewModel
             {
                 Senders.Add(newSender);
                 _senderDataProvider.Add(newSender);
-                _senderDataProvider.SaveChanges();
             }
         }
         public void OnUpdateSenderCommand(Sender sender)

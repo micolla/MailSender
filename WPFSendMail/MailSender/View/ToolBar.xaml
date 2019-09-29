@@ -18,7 +18,7 @@
         <TextBlock Grid.Column="0" Text="Выбрать отправителя"/>
         <ComboBox Grid.Column="1" MinWidth="70" MaxWidth="150"
                 ItemsSource="{Binding Senders}"
-                SelectedItem="{Binding SelectedSender,Mode=TwoWay}"
+                SelectedItem="{Binding SelectedSender, Mode=TwoWay}"
                   Name="Box">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

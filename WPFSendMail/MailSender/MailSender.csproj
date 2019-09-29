@@ -94,6 +94,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\SenderEditorModel.cs" />
+    <Compile Include="View\ListController.xaml.cs">
+      <DependentUpon>ListController.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SenderEditorWindow.xaml.cs">
       <DependentUpon>SenderEditorWindow.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\ListController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SenderEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

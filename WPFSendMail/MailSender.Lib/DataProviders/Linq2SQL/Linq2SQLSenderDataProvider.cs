@@ -35,8 +35,10 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
 
             var entity = new Data.Linq2SQL.Sender
             {
+                login = Sender.Login,
                 name = Sender.Name,
-                email = Sender.Email
+                email = Sender.Email,
+                password = Sender.Password
             };
             _db.Sender.InsertOnSubmit(entity);
             SaveChanges();
@@ -64,6 +66,8 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
             if (db_item is null) return;
             db_item.name = Sender.Name;
             db_item.email = Sender.Email;
+            db_item.login = Sender.Login;
+            db_item.password = Sender.Password;
             SaveChanges();
         }
     }

@@ -17,7 +17,7 @@ namespace MailSender.ViewModel
         }
         public string UserPassword
         {
-            get => PasswordDecoder.getPassword(Sender.Password);
+            get => PasswordDecoder.getPassword(Sender.Password ?? String.Empty);
             set => Sender.Password = PasswordDecoder.getCodPassword(value);
         }
 
