@@ -11,12 +11,8 @@ namespace MailSender.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        #region ChildVM
-        SenderEditorViewModel SenderEditorVM;
-        #endregion
         public MainViewModel(IDataProvider<Sender> senderDataProvider, IDataProvider<Recipient> recipientDataProvider)
         {
-            SenderEditorVM = new SenderEditorViewModel(this);
             #region Senders
             _senderDataProvider = senderDataProvider;
             RefreshSenders();
@@ -37,7 +33,6 @@ namespace MailSender.ViewModel
         #region Senders
         private IDataProvider<Sender> _senderDataProvider;
         private ObservableCollection<Sender> _Senders = new ObservableCollection<Sender>();
-        internal bool SenderChangeOK = false;
         public ObservableCollection<Sender> Senders
         {
             get => _Senders;
@@ -57,21 +52,31 @@ namespace MailSender.ViewModel
         private void OnAddSenderCommand()
         {
             Sender newSender = new Sender();
-            SenderEditorVM.Sender = newSender;
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow();
+            var saved = false;
+            var senderEditorVM = new SenderEditorViewModel { Sender = newSender };
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow { DataContext=senderEditorVM};
+            senderEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            senderEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
             senderEditorWindow.ShowDialog();
-            if (SenderChangeOK)
+            if (saved)
             {
                 _senderDataProvider.Add(newSender);
                 _senderDataProvider.SaveChanges();
-                SenderChangeOK = false;
             }
         }
+
         public void OnUpdateSenderCommand(Sender sender)
         {
-            SenderEditorVM.Sender = sender;
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow();
+            var saved = false;
+            var senderEditorVM = new SenderEditorViewModel { Sender = sender };
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow { DataContext = senderEditorVM };
+            senderEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            senderEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
             senderEditorWindow.ShowDialog();
+            if (saved)
+            {
+                _senderDataProvider.SaveChanges();
+            }
         }
         public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender);
 

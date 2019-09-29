@@ -12,8 +12,6 @@ namespace MailSender.ViewModel
 {
     public class SenderEditorViewModel : ViewModelBase
     {
-        MainViewModel MainViewModel;
-
         private Sender _Sender;
 
         /// <summary>Выбранный получатель</summary>
@@ -27,17 +25,18 @@ namespace MailSender.ViewModel
             set=>Sender.password=PasswordDecoder.getCodPassword(value);
         }
 
-        public ICommand SaveCommand;
-        public ICommand CancelCommand;
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
 
-        public SenderEditorViewModel(MainViewModel mainViewModel)
+        public event EventHandler Save;
+        public event EventHandler Canceled;
+        public SenderEditorViewModel()
         {
-            MainViewModel = mainViewModel;
             SaveCommand = new RelayCommand(OnSaveCommand);
             CancelCommand = new RelayCommand(OnSaveCommand);
         }
 
-        private void OnSaveCommand() => MainViewModel.SenderChangeOK = true;
-        private void OnCancelCommand() => MainViewModel.SenderChangeOK = false;
+        private void OnSaveCommand() => Save?.Invoke(this,EventArgs.Empty);
+        private void OnCancelCommand() => Canceled?.Invoke(this, EventArgs.Empty);
     }
 }
