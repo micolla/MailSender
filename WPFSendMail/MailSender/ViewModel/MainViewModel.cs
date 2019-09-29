@@ -6,14 +6,14 @@ using System.Windows.Input;
 using System;
 using MailSender.View;
 using MailSender.Lib.DataProviders.Interfaces;
+using MailSender.Lib.Entity.Base;
+using System.Collections.Generic;
 
 namespace MailSender.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        #region ChildVM
-        #endregion
-        public MainViewModel(ISenderDataProvider senderDataProvider, IRecipientDataProvider recipientDataProvider)
+        public MainViewModel(ISenderDataProvider senderDataProvider, IRecipientDataProvider recipientDataProvider, ISMTPServerDataProvider serverDataProvider)
         {
             #region Senders
             _senderDataProvider = senderDataProvider;
@@ -31,11 +31,50 @@ namespace MailSender.ViewModel
             UpdateRecipientCommand = new RelayCommand<Recipient>(OnUpdateRecipientCommand);
             DeleteRecipientCommand = new RelayCommand<Recipient>(OnDeleteRecipientCommand);
             #endregion
+            #region SMTPServer
+            _serverDataProvider = serverDataProvider;
+            RefreshServers();
+            AddServerCommand = new RelayCommand<SMTPServer>(OnAddServerCommand);
+            UpdateServerCommand = new RelayCommand<SMTPServer>(OnUpdateServerCommand);
+            DeleteServerCommand = new RelayCommand<SMTPServer>(OnDeleteServerCommand);
+            #endregion
         }
+        #region SMTPServer
+        private ISMTPServerDataProvider _serverDataProvider;
+        private ObservableCollection<SMTPServer> _Servers = new ObservableCollection<SMTPServer>();
+        public ObservableCollection<SMTPServer> Servers
+        {
+            get => _Servers;
+            set => Set(ref _Servers, value);
+        }
+        public ICommand AddServerCommand { get; }
+        public ICommand UpdateServerCommand { get; }
+        public ICommand DeleteServerCommand { get; }
+        private void RefreshServers()
+        {
+            var servers = Servers;
+            Senders.Clear();
+            foreach (var server in _serverDataProvider.GetAll())
+                servers.Add(server);
+        }
+        private void OnDeleteServerCommand(SMTPServer obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnUpdateServerCommand(SMTPServer obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnAddServerCommand(SMTPServer obj)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         #region Senders
         private ISenderDataProvider _senderDataProvider;
         private ObservableCollection<Sender> _Senders = new ObservableCollection<Sender>();
-        internal bool SenderChangeOK = false;
         public ObservableCollection<Sender> Senders
         {
             get => _Senders;
@@ -55,19 +94,32 @@ namespace MailSender.ViewModel
         private void OnAddSenderCommand()
         {
             Sender newSender = new Sender();
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(newSender);
+            var saved = false;
+            var senderEditorVM = new SenderEditorViewModel(newSender);
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow { DataContext = senderEditorVM };
+            senderEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            senderEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
             senderEditorWindow.ShowDialog();
-            if (senderEditorWindow.DialogResult.HasValue&& senderEditorWindow.DialogResult.Value)
+            if (saved)
             {
+                Senders.Add(newSender);
                 _senderDataProvider.Add(newSender);
                 _senderDataProvider.SaveChanges();
-                SenderChangeOK = false;
             }
         }
         public void OnUpdateSenderCommand(Sender sender)
         {
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(sender);
+            var saved = false;
+            var senderEditorVM = new SenderEditorViewModel(sender);
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow();
+            senderEditorWindow.DataContext = senderEditorVM;
+            senderEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            senderEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
             senderEditorWindow.ShowDialog();
+            if (saved)
+            {
+                _senderDataProvider.Update(sender.Id, sender);
+            }
         }
         public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender.Id,sender);
 
@@ -113,8 +165,6 @@ namespace MailSender.ViewModel
         public ICommand AddRecipientCommand { get; }
         public ICommand UpdateRecipientCommand { get; }
         public ICommand DeleteRecipientCommand { get; }
-
-
         private void RefreshRecipients()
         {
             var recipients = Recipients;

@@ -2,6 +2,10 @@
 {
     public abstract class HumanEntity : NamedEntity
     {
-        public string Email { get; set; }
+        private string _email;
+        public string Email {
+            get =>_email;
+            set { Set(ref _email, value); }
+        }
     }
 }

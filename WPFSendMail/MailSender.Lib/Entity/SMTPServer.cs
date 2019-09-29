@@ -5,7 +5,9 @@ namespace MailSender.Lib.Entity
 {
     public class SMTPServer : BaseEntity
     {
-        public int Port { get; set; }
-        public string Address { get; set; }
+        private int _port;
+        private string _address;
+        public int Port { get => _port; set => Set(ref _port, value); }
+        public string Address { get => _address; set => Set(ref _address, value); }
     }
 }

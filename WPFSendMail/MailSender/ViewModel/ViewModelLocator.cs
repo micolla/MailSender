@@ -44,9 +44,9 @@ namespace MailSender.ViewModel
             ////}
 
             services.Register<MainViewModel>();
-            services.Register<SenderEditorViewModel>();
             services.Register<ISenderDataProvider, Linq2SQLSenderDataProvider>();
             services.Register<IRecipientDataProvider, Linq2SQLRecipientDataProvider>();
+            services.Register<ISMTPServerDataProvider, Linq2SQLSMTPServerDataProvider>();
             if (!services.IsRegistered<MailSenderDBDataContext>())
                 services.Register(() => new MailSenderDBDataContext());            
         }

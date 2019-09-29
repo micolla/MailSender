@@ -6,7 +6,8 @@ namespace MailSender.Lib.Entity
 {
     public class RecipientsList : NamedEntity
     {
-        ICollection<Recipient> Recipients { get; set; }
+        ICollection<Recipient> _Recipients;
+        ICollection<Recipient> Recipients { get => _Recipients; set => Set(ref _Recipients, value); }
     }
 
 }

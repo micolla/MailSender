@@ -8,7 +8,9 @@ namespace MailSender.Lib.Entity
 {
     public class Sender: HumanEntity
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
+        private string _login;
+        private string _password;
+        public string Login { get => _login; set => Set(ref _login, value); }
+        public string Password { get => _password; set => Set(ref _password, value); }
     }
 }

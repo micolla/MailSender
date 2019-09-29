@@ -1,47 +1,39 @@
 using GalaSoft.MvvmLight;
-using MailSender.Lib.DataProviders.Interfaces;
-using MailSender.Lib.Data.Linq2SQL;
-using System.Collections.ObjectModel;
+using MailSender.Lib.Entity;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using System;
-using System.ComponentModel;
 using MailSender.Lib;
 
 namespace MailSender.ViewModel
 {
     public class SenderEditorViewModel : ViewModelBase
     {
-        MainViewModel MainViewModel;
-
         private Sender _Sender;
-
-        /// <summary>Выбранный получатель</summary>
         public Sender Sender
         {
             get => _Sender;
             set => Set(ref _Sender, value);
         }
-        public string SenderName
+        public string UserPassword
         {
-            get => Sender.login;
-        }
-        public string UserPassword {
-            get => "11";// PasswordDecoder.getPassword(Sender.password)??String.Empty;
-            set=>Sender.password=PasswordDecoder.getCodPassword(value);
+            get => PasswordDecoder.getPassword(Sender.Password);
+            set => Sender.Password = PasswordDecoder.getCodPassword(value);
         }
 
-        public ICommand SaveCommand;
-        public ICommand CancelCommand;
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
 
-        public SenderEditorViewModel(MainViewModel mainViewModel)
+        public event EventHandler Save;
+        public event EventHandler Canceled;
+        public SenderEditorViewModel(Sender sender)
         {
-            MainViewModel = mainViewModel;
+            Sender = sender;
             SaveCommand = new RelayCommand(OnSaveCommand);
-            CancelCommand = new RelayCommand(OnSaveCommand);
+            CancelCommand = new RelayCommand(OnCancelCommand);
         }
 
-        private void OnSaveCommand() => MainViewModel.SenderChangeOK = true;
-        private void OnCancelCommand() => MainViewModel.SenderChangeOK = false;
+        private void OnSaveCommand() => Save?.Invoke(this, EventArgs.Empty);
+        private void OnCancelCommand() => Canceled?.Invoke(this, EventArgs.Empty);
     }
 }

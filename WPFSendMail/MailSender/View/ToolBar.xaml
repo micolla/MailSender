@@ -23,8 +23,8 @@
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding login}"/>
-                        <TextBlock Text="{Binding email, StringFormat=:\{0\}}" Opacity="0.7"/>
+                        <TextBlock Text="{Binding Login}"/>
+                        <TextBlock Text="{Binding Email, StringFormat=:\{0\}}" Opacity="0.7"/>
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
