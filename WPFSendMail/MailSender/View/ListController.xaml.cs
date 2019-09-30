@@ -46,7 +46,7 @@ namespace MailSender.View
                 nameof(SelectedItem),
                 typeof(object),
                 typeof(ListController),
-                new PropertyMetadata(default(object)));
+                new FrameworkPropertyMetadata(default(object),flags:FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         /// <summary>Выбранный элемент</summary>
         //[Category("")]

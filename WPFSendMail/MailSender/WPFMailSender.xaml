@@ -17,7 +17,7 @@
                 <MenuItem Header="Открыть"/>
                 <MenuItem Header="Сохранить"/>
                 <Separator/>
-                <MenuItem Header="Выход" Click="ExitMenuItem_OnClick"/>
+                <MenuItem Header="Выход" Command="{Binding ApplicationCloseCommand}"/>
             </MenuItem>
             <MenuItem Header="Сервис">
                 <MenuItem Header="Параметры" IsEnabled="False"/>
@@ -130,7 +130,7 @@
                                 </Button>
                                 <Button ToolTip="Отправить сразу"
                                         x:Name="SendMail"
-                                        Click="SendMailButton_Click">
+                                         Command="{Binding SendMailNow}">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="SendOutline"/>
                                         <TextBlock Text="Отправить сразу"/>
@@ -186,7 +186,10 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Редактор писем">
-                <RichTextBox x:Name="MessageEditor"/>
+                <DockPanel>
+                    <TextBox ToolTip="Тема письма" DockPanel.Dock="Top" Text="{Binding Email.Subject}"/>
+                    <xctk:RichTextBox Text="{Binding Email.Message}"/>
+                </DockPanel>
             </TabItem>
             <TabItem Header="Статистика"  IsEnabled="False"/>
         </TabControl>

@@ -2,8 +2,9 @@
 using System.Security;
 using System.Net;
 using System.Net.Mail;
-using MailSender.Lib.Data.Linq2SQL;
+using MailSender.Lib.Entity;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MailSender.Lib
 {   
@@ -16,25 +17,26 @@ namespace MailSender.Lib
         string message;
         string subject;
         string user_email;
-        IQueryable<Recipient> recipients;
-        public MailSenderService(Sender sender, string message,string subject, IQueryable<Recipient> recipients) 
-            :this(sender,message,subject)
+        ICollection<Recipient> recipients;
+        public MailSenderService(Sender sender, string message,string subject, ICollection<Recipient> recipients,
+            SMTPServer server) 
+            :this(sender,message,subject, server)
         {
             this.recipients = recipients;
         }
-        public MailSenderService(Sender sender, string message, string subject) : this(sender)
+        public MailSenderService(Sender sender, string message, string subject, SMTPServer server) : this(sender, server)
         {
             this.message = message;
             this.subject = subject;
         }
 
-        public MailSenderService(Sender sender)
+        public MailSenderService(Sender sender,SMTPServer server)
         {
-            //this.host = sender.smtp_address;
-            //this.port = sender.smtp_port;
-            this.user_email = sender.email;
-            this.user_name = sender.login;
-            this.password = sender.password;
+            this.host = server.Address;
+            this.port = server.Port;
+            this.user_email = sender.Email;
+            this.user_name = sender.Login;
+            this.password = sender.Password;
             this.message = "не указан текст";
             this.subject = "не указана тема";
         }
@@ -43,14 +45,14 @@ namespace MailSender.Lib
         /// </summary>
         /// <param name="recipients">список адресатов</param>
         /// <returns></returns>
-        public SentState SendMails(IQueryable<Recipient> recipients)
+        public SentState SendMails(ICollection<Recipient> recipients)
         {
             SentState tmpState = new SentState("Не указаны получатели", false);
             if (recipients.Count() > 0)
             {
                 foreach (var item in recipients)
                 {
-                    tmpState = SendMail(item.email, item.name);
+                    tmpState = SendMail(item.Email, item.Name);
                     if (!tmpState.IsOk)
                         throw new InvalidOperationException(tmpState.Message);
                 }
@@ -73,8 +75,8 @@ namespace MailSender.Lib
                 using (var client = new SmtpClient(host, port))
                 {
                     client.EnableSsl = true;
-                    client.Credentials = new NetworkCredential(user_name, password);
-                    //client.Credentials = new NetworkCredential(user_name, PasswordDecoder.getPassword(password));
+                    //client.Credentials = new NetworkCredential(user_name, password);
+                    client.Credentials = new NetworkCredential(user_name, PasswordDecoder.getPassword(password));
                     using (var message = new MailMessage() { Body = this.message, Subject = this.subject })
                     {
                         message.From = new MailAddress(this.user_email);

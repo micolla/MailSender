@@ -13,66 +13,20 @@ namespace MailSender
     /// </summary>
     public partial class WPFMailSender : Window
     {
-        private MailSheduler Sheduler;
+        //private MailSheduler Sheduler;
         public WPFMailSender()
         {
             InitializeComponent();
-            Sheduler = new MailSheduler();
-            Sheduler.MailIsSend += ShowState;
-        }
-
-        private void ExitMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            //Sheduler = new MailSheduler();
+            //Sheduler.MailIsSend += ShowState;
         }
 
         private void GoToShedullerButton_Click(object sender, RoutedEventArgs e)
         {
             this.FormTabs.SelectedIndex = 1;
         }
-        /// <summary>
-        /// Моментальная отправка письма
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SendMailButton_Click(object sender, RoutedEventArgs e)
-        {
-            //if (IsAllFieldsFilled())
-            //{
-            //    TextRange textRange = new TextRange(MessageEditor.Document.ContentStart, MessageEditor.Document.ContentEnd);
-            //    if (!string.IsNullOrEmpty(textRange.Text))
-            //    {
-            //        MailSenderService mailSenderService
-            //            = new MailSenderService((Sender)this.SenderBox.SelectedItem, textRange.Text, "Empty subject");
 
-            //        SentState sentState
-            //            = mailSenderService.SendMails((IQueryable<Recipient>)this.RecipientsGrid.ItemsSource);
-            //        ShowState(sentState);
-            //    }
-            //    else
-            //        ShowState(false, "не заполнено тело письма");
-            //}
-        }
 
-        private static void ShowState(SentState sentState)
-        {
-            WPFInformationMessage w = new WPFInformationMessage(sentState.IsOk ? "Успех!" : "Ошибка!", sentState.Message);
-            w.ShowDialog();
-        }
-        private static void ShowState(bool isOk, string Message)
-        {
-            WPFInformationMessage w = new WPFInformationMessage(isOk ? "Успех!" : "Ошибка!", Message);
-            w.ShowDialog();
-        }
-
-        /// <summary>
-        /// Заглушка для проверки полей на заполнение
-        /// </summary>
-        /// <returns></returns>
-        private bool IsAllFieldsFilled()
-        {
-            return true;
-        }
         /// <summary>
         /// Запланировать отправку письма
         /// </summary>

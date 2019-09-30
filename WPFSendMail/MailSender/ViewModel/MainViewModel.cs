@@ -9,6 +9,9 @@ using MailSender.Lib.DataProviders.Interfaces;
 using MailSender.Lib.Entity.Base;
 using System.Collections.Generic;
 using MailServer.ViewModel;
+using System.Windows.Documents;
+using MailSender.Lib;
+using System.Windows;
 
 namespace MailSender.ViewModel
 {
@@ -39,7 +42,11 @@ namespace MailSender.ViewModel
             UpdateServerCommand = new RelayCommand<SMTPServer>(OnUpdateServerCommand);
             DeleteServerCommand = new RelayCommand<SMTPServer>(OnDeleteServerCommand);
             #endregion
+            #region Sheduler
+            SendMailNow = new RelayCommand(OnSendMailNow);
+            #endregion
         }
+
         #region SMTPServer
         private ISMTPServerDataProvider _serverDataProvider;
         private ObservableCollection<SMTPServer> _Servers = new ObservableCollection<SMTPServer>();
@@ -203,5 +210,39 @@ namespace MailSender.ViewModel
                 recipients.Add(recipient);
         }
         #endregion
+        #region Mail
+        private Email _Email = new Email();
+        public Email Email
+        {
+            get => _Email;
+            set => Set(ref _Email, value);
+        }
+        #endregion
+        #region Sheduler
+        public ICommand SendMailNow { get; }
+        private void OnSendMailNow()
+        {
+                MailSenderService mailSenderService
+                    = new MailSenderService(SelectedSender, Email.Message, Email.Subject,SelectedServer);
+
+                SentState sentState
+                    = mailSenderService.SendMails(Recipients);
+            ShowState(sentState);
+        }
+
+        #endregion
+        #region InformationWindow
+        private static void ShowState(SentState sentState)
+        {
+            WPFInformationMessage w = new WPFInformationMessage(sentState.IsOk ? "Успех!" : "Ошибка!", sentState.Message);
+            w.ShowDialog();
+        }
+        private static void ShowState(bool isOk, string Message)
+        {
+            WPFInformationMessage w = new WPFInformationMessage(isOk ? "Успех!" : "Ошибка!", Message);
+            w.ShowDialog();
+        }
+        #endregion
+        public ICommand ApplicationCloseCommand = new RelayCommand(() => Application.Current.Shutdown());
     }
 }
