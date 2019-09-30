@@ -18,6 +18,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MailSender.Lib.Data.Linq2SQL;
 using MailSender.Lib.DataProviders.Linq2SQL;
 using MailSender.Lib.DataProviders.Interfaces;
+using MailServer.ViewModel;
 
 namespace MailSender.ViewModel
 {
@@ -53,6 +54,8 @@ namespace MailSender.ViewModel
 
         public MainViewModel MainViewModel=>ServiceLocator.Current.GetInstance<MainViewModel>();
         public SenderEditorViewModel SenderEditorVM => ServiceLocator.Current.GetInstance<SenderEditorViewModel>();
+        public ServerEditorVM ServerEditorVM => ServiceLocator.Current.GetInstance<ServerEditorVM>();
+        
 
         public static void Cleanup()
         {

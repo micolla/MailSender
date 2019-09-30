@@ -8,6 +8,7 @@ using MailSender.View;
 using MailSender.Lib.DataProviders.Interfaces;
 using MailSender.Lib.Entity.Base;
 using System.Collections.Generic;
+using MailServer.ViewModel;
 
 namespace MailSender.ViewModel
 {
@@ -73,7 +74,17 @@ namespace MailSender.ViewModel
 
         private void OnUpdateServerCommand(SMTPServer obj)
         {
-            throw new NotImplementedException();
+            var saved = false;
+            var serverEditorVM = new ServerEditorVM(obj);
+            ServerEditorWindow editorWindow = new ServerEditorWindow();
+            editorWindow.DataContext = serverEditorVM;
+            serverEditorVM.Save += (o, e) => { saved = true; editorWindow.Close(); };
+            serverEditorVM.Canceled += (o, e) => { saved = false; editorWindow.Close(); };
+            editorWindow.ShowDialog();
+            if (saved)
+            {
+                _serverDataProvider.Update(obj.Id, obj);
+            }
         }
 
         private void OnAddServerCommand(SMTPServer obj)

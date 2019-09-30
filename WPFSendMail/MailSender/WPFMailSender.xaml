@@ -68,7 +68,10 @@
                         <ToolBar Band="1">
                             <ctrl:ListController PanelName="Сервера" 
                                                  Items="{Binding Servers}"
-                                                 SelectedItem="{Binding SelectedServer}">
+                                                 SelectedItem="{Binding SelectedServer}"
+                                                 CreateCommand="{Binding AddServerCommand}"
+                                                 EditCommand="{Binding UpdateServerCommand}"
+                                                 DeleteCommand="{Binding DeleteServerCommand}">
                                 <ctrl:ListController.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

@@ -93,9 +93,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\BaseEditorVM\BaseEditorVM.cs" />
     <Compile Include="ViewModel\SenderEditorModel.cs" />
+    <Compile Include="ViewModel\ServerEditorVM.cs" />
     <Compile Include="View\ListController.xaml.cs">
       <DependentUpon>ListController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ServerEditorWindow.xaml.cs">
+      <DependentUpon>ServerEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SenderEditorWindow.xaml.cs">
       <DependentUpon>SenderEditorWindow.xaml</DependentUpon>
@@ -143,6 +148,10 @@
     <Page Include="View\ListController.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ServerEditorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\SenderEditorWindow.xaml">
       <SubType>Designer</SubType>
