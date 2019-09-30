@@ -10,8 +10,9 @@ If object_id('Sender') is not null
 	drop table Sender;
 create table Sender
 (sender_id int Primary Key identity(1,1)
+,name nvarchar(50) not null
 ,login varchar(50) not null
-,password varchar(100) not null
+,password nvarchar(100) not null
 ,email varchar(255)
 ,server_server_id int);
 
@@ -20,17 +21,17 @@ If object_id('Recipient') is not null
 	drop table Recipient;
 create table Recipient
 (recipient_id int Primary Key identity(1,1)
-,name varchar(255) not null
+,name nvarchar(255) not null
 ,email varchar(255) not null
-,description varchar(255));
+,description nvarchar(255));
 
 go
 If object_id('RecipientsList') is not null
 	drop table RecipientsList;
 create table RecipientsList
 (list_id int Primary Key identity(1,1)
-,name varchar(60) not null
-,description varchar(255));
+,name nvarchar(60) not null
+,description nvarchar(255));
 
 go
 If object_id('ListComposition') is not null
@@ -51,7 +52,7 @@ If object_id('Task') is not null
 	drop table Task;
 create table Task
 (task_id int Primary Key identity(1,1)
-,name varchar(60)
+,name nvarchar(60)
 ,sender_sender_id int 
 ,list_list_id int
 ,shdedule_shedule_id int

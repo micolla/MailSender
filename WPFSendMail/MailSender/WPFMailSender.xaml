@@ -60,7 +60,7 @@
                             </ctrl:ListController>
                         </ToolBar>
                         <ToolBar>
-                            <TextBlock Text="Перейти в пларнировщик"/>
+                            <TextBlock Text="Перейти в планировщик"/>
                             <Button ToolTip="Планировщик" Click="GoToShedullerButton_Click">
                                 <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
                             </Button>
@@ -84,7 +84,7 @@
                         </ToolBar>
                         <ToolBar Band="1">
                             <TextBlock Text="Список адресатов"/>
-                            <Button ToolTip="Добавить">
+                            <Button ToolTip="Добавить" Command="{Binding AddRecipientCommand}">
                                 <fa:ImageAwesome Height="18" Icon="Plus"/>
                             </Button>
                             <Button ToolTip="Изменить">
@@ -95,20 +95,18 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid Grid.Row="1" x:Name="RecipientsGrid"
-                              AutoGenerateColumns="False"
-                              Width="Auto"
-                              HeadersVisibility="Column"
-                              IsReadOnly="True"
-                              ItemsSource="{Binding Recipients}">
-                        <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Header="Выбрать"/>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                            <DataGridTextColumn Header="описание" Binding="{Binding Description}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <ctrl:RecipientsView Grid.Column="0" Margin="5"/>
+                        <ctrl:RecipientsEditor Grid.Column="1" Margin="5"/>
+                        <GridSplitter Grid.Column="1" Width="4" Background="Transparent"
+                                      VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                    </Grid>
+                    
                 </Grid>
             </TabItem>
             <TabItem Header="Планировщик">

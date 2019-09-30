@@ -18,15 +18,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Логин"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Entity.Login}"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Пароль"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UserPassword}"/>
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Email"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Entity.Email}"/>
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal"
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Имя"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Entity.Name}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Логин"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Entity.Login}"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Пароль"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding UserPassword}"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Email"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Entity.Email}"/>
+        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal"
                     HorizontalAlignment="Center" VerticalAlignment="Top"
                     Margin="0,15">
             <Button Margin="5,0" Padding="14" Content="Сохранить" Command="{Binding SaveCommand}"/>

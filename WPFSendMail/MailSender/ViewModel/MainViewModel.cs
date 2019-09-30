@@ -35,7 +35,7 @@ namespace MailSender.ViewModel
             #region SMTPServer
             _serverDataProvider = serverDataProvider;
             RefreshServers();
-            AddServerCommand = new RelayCommand<SMTPServer>(OnAddServerCommand);
+            AddServerCommand = new RelayCommand(OnAddServerCommand);
             UpdateServerCommand = new RelayCommand<SMTPServer>(OnUpdateServerCommand);
             DeleteServerCommand = new RelayCommand<SMTPServer>(OnDeleteServerCommand);
             #endregion
@@ -87,9 +87,20 @@ namespace MailSender.ViewModel
             }
         }
 
-        private void OnAddServerCommand(SMTPServer obj)
+        private void OnAddServerCommand()
         {
-            throw new NotImplementedException();
+            SMTPServer newServer= new SMTPServer();
+            var saved = false;
+            var serverEditorVM = new ServerEditorVM(newServer);
+            ServerEditorWindow senderEditorWindow = new ServerEditorWindow { DataContext = serverEditorVM };
+            serverEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            serverEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
+            senderEditorWindow.ShowDialog();
+            if (saved)
+            {
+                Servers.Add(newServer);
+                newServer.Id = _serverDataProvider.Add(newServer);
+            }
         }
         #endregion
         #region Senders
@@ -123,7 +134,7 @@ namespace MailSender.ViewModel
             if (saved)
             {
                 Senders.Add(newSender);
-                _senderDataProvider.Add(newSender);
+                newSender.Id=_senderDataProvider.Add(newSender);
             }
         }
         public void OnUpdateSenderCommand(Sender sender)

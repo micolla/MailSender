@@ -15,7 +15,7 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
         public Linq2SQLRecipientDataProvider(Data.Linq2SQL.MailSenderDBDataContext mailSenderDBDataContext)=>_db = mailSenderDBDataContext;
         public Recipient GetById(int id)
         {
-            var db_item = _db.Recipient.FirstOrDefault(r => r.recipient_id == id);
+            var db_item = _db.Recipients.FirstOrDefault(r => r.recipient_id == id);
             return db_item is null ? null : MapDB2Entity(db_item);
         }
 
@@ -23,7 +23,8 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
             {
                 Id = db_item.recipient_id,
                 Name = db_item.name,
-                Email = db_item.email
+                Email = db_item.email,
+                Description=db_item.description
             };
 
         public int Add(Recipient recipient)
@@ -36,29 +37,29 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
                 name = recipient.Name,
                 email = recipient.Email
             };
-            _db.Recipient.InsertOnSubmit(entity);
+            _db.Recipients.InsertOnSubmit(entity);
             SaveChanges();
             return entity.recipient_id;
         }
 
         public bool Delete(int id, Recipient recipient)
         {
-            var db_item = _db.Recipient.FirstOrDefault(r => r.recipient_id == id);
+            var db_item = _db.Recipients.FirstOrDefault(r => r.recipient_id == id);
             if (db_item is null) return false;
 
-            _db.Recipient.DeleteOnSubmit(db_item);
+            _db.Recipients.DeleteOnSubmit(db_item);
             SaveChanges();
             return true;
         }
 
         public IEnumerable<Recipient> GetAll()=>
-            _db.Recipient.ToArray().Select(r=> MapDB2Entity(r));
+            _db.Recipients.ToArray().Select(r=> MapDB2Entity(r));
 
         public void SaveChanges()=>_db.SubmitChanges();
 
         public void Update(int id, Recipient recipient)
         {
-            var db_item = _db.Recipient.FirstOrDefault(r => r.recipient_id == id);
+            var db_item = _db.Recipients.FirstOrDefault(r => r.recipient_id == id);
             if (db_item is null) return;
             db_item.name = recipient.Name;
             db_item.email = recipient.Email;

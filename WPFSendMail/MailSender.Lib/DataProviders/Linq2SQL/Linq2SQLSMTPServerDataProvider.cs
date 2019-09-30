@@ -15,7 +15,7 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
         public Linq2SQLSMTPServerDataProvider(Data.Linq2SQL.MailSenderDBDataContext mailSMTPServerDBDataContext) => _db = mailSMTPServerDBDataContext;
         public SMTPServer GetById(int id)
         {
-            var db_item = _db.Server_smtp.FirstOrDefault(r => r.server_id == id);
+            var db_item = _db.Server_smtps.FirstOrDefault(r => r.server_id == id);
             return db_item is null ? null : MapDB2Entity(db_item);
         }
 
@@ -36,29 +36,29 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
                 port = SMTPServer.Port,
                 address = SMTPServer.Address
             };
-            _db.Server_smtp.InsertOnSubmit(entity);
+            _db.Server_smtps.InsertOnSubmit(entity);
             SaveChanges();
             return entity.server_id;
         }
 
         public bool Delete(int id, SMTPServer SMTPServer)
         {
-            var db_item = _db.Server_smtp.FirstOrDefault(r => r.server_id == id);
+            var db_item = _db.Server_smtps.FirstOrDefault(r => r.server_id == id);
             if (db_item is null) return false;
 
-            _db.Server_smtp.DeleteOnSubmit(db_item);
+            _db.Server_smtps.DeleteOnSubmit(db_item);
             SaveChanges();
             return true;
         }
 
         public IEnumerable<SMTPServer> GetAll() =>
-            _db.Server_smtp.ToArray().Select(r => MapDB2Entity(r));
+            _db.Server_smtps.ToArray().Select(r => MapDB2Entity(r));
 
         public void SaveChanges() => _db.SubmitChanges();
 
         public void Update(int id, SMTPServer SMTPServer)
         {
-            var db_item = _db.Server_smtp.FirstOrDefault(r => r.server_id == id);
+            var db_item = _db.Server_smtps.FirstOrDefault(r => r.server_id == id);
             if (db_item is null) return;
             db_item.port = SMTPServer.Port;
             db_item.address = SMTPServer.Address;

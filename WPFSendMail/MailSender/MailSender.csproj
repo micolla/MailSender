@@ -93,11 +93,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ValidationRules\RegExValidationRule.cs" />
     <Compile Include="ViewModel\BaseEditorVM\BaseEditorVM.cs" />
     <Compile Include="ViewModel\SenderEditorModel.cs" />
     <Compile Include="ViewModel\ServerEditorVM.cs" />
     <Compile Include="View\ListController.xaml.cs">
       <DependentUpon>ListController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipientsEditor.xaml.cs">
+      <DependentUpon>RecipientsEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipientsView.xaml.cs">
+      <DependentUpon>RecipientsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ServerEditorWindow.xaml.cs">
       <DependentUpon>ServerEditorWindow.xaml</DependentUpon>
@@ -146,6 +153,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\ListController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RecipientsEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RecipientsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

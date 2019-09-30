@@ -15,7 +15,7 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
         public Linq2SQLSenderDataProvider(Data.Linq2SQL.MailSenderDBDataContext mailSenderDBDataContext) => _db = mailSenderDBDataContext;
         public Sender GetById(int id)
         {
-            var db_item = _db.Sender.FirstOrDefault(r => r.sender_id == id);
+            var db_item = _db.Senders.FirstOrDefault(r => r.sender_id == id);
             return db_item is null ? null : MapDB2Entity(db_item);
         }
 
@@ -40,29 +40,29 @@ namespace MailSender.Lib.DataProviders.Linq2SQL
                 email = Sender.Email,
                 password = Sender.Password
             };
-            _db.Sender.InsertOnSubmit(entity);
+            _db.Senders.InsertOnSubmit(entity);
             SaveChanges();
             return entity.sender_id;
         }
 
         public bool Delete(int id, Sender Sender)
         {
-            var db_item = _db.Sender.FirstOrDefault(r => r.sender_id == id);
+            var db_item = _db.Senders.FirstOrDefault(r => r.sender_id == id);
             if (db_item is null) return false;
 
-            _db.Sender.DeleteOnSubmit(db_item);
+            _db.Senders.DeleteOnSubmit(db_item);
             SaveChanges();
             return true;
         }
 
         public IEnumerable<Sender> GetAll() =>
-            _db.Sender.ToArray().Select(r => MapDB2Entity(r));
+            _db.Senders.ToArray().Select(r => MapDB2Entity(r));
 
         public void SaveChanges() => _db.SubmitChanges();
 
         public void Update(int id, Sender Sender)
         {
-            var db_item = _db.Sender.FirstOrDefault(r => r.sender_id == id);
+            var db_item = _db.Senders.FirstOrDefault(r => r.sender_id == id);
             if (db_item is null) return;
             db_item.name = Sender.Name;
             db_item.email = Sender.Email;
