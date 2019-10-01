@@ -42,8 +42,12 @@ namespace MailSender.ViewModel
             UpdateServerCommand = new RelayCommand<SMTPServer>(OnUpdateServerCommand);
             DeleteServerCommand = new RelayCommand<SMTPServer>(OnDeleteServerCommand);
             #endregion
-            #region Sheduler
+            #region SendMailNow
             SendMailNow = new RelayCommand(OnSendMailNow);
+            #endregion
+            #region SheduledMail
+            CreateEmptyTask();            
+            AddShedulerTask = new RelayCommand(OnAddShedulerTask);
             #endregion
         }
 
@@ -218,7 +222,7 @@ namespace MailSender.ViewModel
             set => Set(ref _Email, value);
         }
         #endregion
-        #region Sheduler
+        #region SendMailNow
         public ICommand SendMailNow { get; }
         private void OnSendMailNow()
         {
@@ -230,6 +234,28 @@ namespace MailSender.ViewModel
             ShowState(sentState);
         }
 
+        #endregion
+        #region SheduledTask
+        MailSheduler _mailSheduler = new MailSheduler();
+        public ICommand AddShedulerTask { get; }
+        private SheduledTask _SheduledTask = new SheduledTask();
+        public SheduledTask SheduledTask
+        {
+            get => _SheduledTask;
+            set => Set(ref _SheduledTask, value);
+        }
+        private void CreateEmptyTask()
+        {
+            SheduledTask.Email = Email;
+            RecipientsList recipientsList = new RecipientsList { Recipients= Recipients };
+            SheduledTask.RecipientsList = recipientsList;
+            SheduledTask.SMTPServer = SelectedServer;
+            SheduledTask.Sender = SelectedSender;
+        }
+        private void OnAddShedulerTask()
+        {
+            _mailSheduler.AddTask(SheduledTask);
+        }
         #endregion
         #region InformationWindow
         private static void ShowState(SentState sentState)

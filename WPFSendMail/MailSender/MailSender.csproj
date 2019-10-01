@@ -183,6 +183,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ListViewItemScheduler\ListViewItemScheduler.csproj">
+      <Project>{97df7ce8-127b-48d7-8b4b-bb97cd75c6a3}</Project>
+      <Name>ListViewItemScheduler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MailSender.Lib\MailSender.Lib.csproj">
       <Project>{81657f77-d7c4-45ad-9a79-86d77f502622}</Project>
       <Name>MailSender.Lib</Name>

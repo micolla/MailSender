@@ -19,6 +19,7 @@ using MailSender.Lib.Data.Linq2SQL;
 using MailSender.Lib.DataProviders.Linq2SQL;
 using MailSender.Lib.DataProviders.Interfaces;
 using MailServer.ViewModel;
+using MailSender.Lib.DataProviders.InMemory;
 
 namespace MailSender.ViewModel
 {
@@ -48,6 +49,7 @@ namespace MailSender.ViewModel
             services.Register<ISenderDataProvider, Linq2SQLSenderDataProvider>();
             services.Register<IRecipientDataProvider, Linq2SQLRecipientDataProvider>();
             services.Register<ISMTPServerDataProvider, Linq2SQLSMTPServerDataProvider>();
+            services.Register<IRecipientsListDataProvider, InRecipientsListDataProvider>();
             if (!services.IsRegistered<MailSenderDBDataContext>())
                 services.Register(() => new MailSenderDBDataContext());            
         }

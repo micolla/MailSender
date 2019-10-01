@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AppConfigClass.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="DataProviders\InMemory\InRecipientsListDataProvider.cs" />
     <Compile Include="DataProviders\Linq2SQL\Linq2SQLBaseProvider.cs" />
     <Compile Include="DataProviders\Linq2SQL\Linq2SQLSMTPServerDataProvider.cs" />
     <Compile Include="Data\Linq2SQL\MailSenderDB.cs">
@@ -60,6 +61,7 @@
     <Compile Include="Entity\Base\HumanEntity.cs" />
     <Compile Include="Entity\Base\NamedEntity.cs" />
     <Compile Include="Entity\Email.cs" />
+    <Compile Include="Entity\Mapping\SheduledTaskMapping.cs" />
     <Compile Include="Entity\Recipient.cs" />
     <Compile Include="Entity\RecipientsList.cs" />
     <Compile Include="Entity\Sender.cs" />

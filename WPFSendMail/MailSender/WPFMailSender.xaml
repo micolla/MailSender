@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:MailSender"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="MailSender.WPFMailSender"
         xmlns:ctrl="clr-namespace:MailSender.View"
-        mc:Ignorable="d"
+    xmlns:listviewitemscheduler="clr-namespace:ListViewItemScheduler;assembly=ListViewItemScheduler"
+    mc:Ignorable="d"
         Title="WpfMailSender " Height="450" Width="800" MinHeight="450" MinWidth="800"
         DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
     <DockPanel>
@@ -118,19 +119,18 @@
                     <GroupBox Header="Управление" Grid.Column="0">
                         <StackPanel>
                             <TextBlock Text="Выберите дату"/>
-                            <xctk:TimePicker x:Name="SendMailDateTimePicker" Format="ShortTime"/>
+                            <xctk:TimePicker CurrentDateTimePart="{Binding SheduledTask.SheduledTime,Mode=TwoWay}" Format="ShortTime"/>
                             <StackPanel Margin="5">
-                                <Button x:Name="SendSheduledMail"
-                                    ToolTip="Отправить запланировано"
-                                        Click="SendSheduledMail_Click">
+                                <Button
+                                        ToolTip="Запланировать отправку"
+                                        Command="{Binding AddShedulerTask}">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
-                                        <TextBlock Text="Отправить запланировано"/>
+                                        <TextBlock Text="Запланировать отправку"/>
                                     </DockPanel>
                                 </Button>
                                 <Button ToolTip="Отправить сразу"
-                                        x:Name="SendMail"
-                                         Command="{Binding SendMailNow}">
+                                        Command="{Binding SendMailNow}">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="SendOutline"/>
                                         <TextBlock Text="Отправить сразу"/>
@@ -140,48 +140,7 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания" Grid.Column="1">
-                        <ListBox HorizontalAlignment="Stretch">
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 1">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 2">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 3">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 4">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                        </ListBox>
+                        <listviewitemscheduler:ListViewItemSchedulerControl/>
                     </GroupBox>
                 </Grid>
             </TabItem>
