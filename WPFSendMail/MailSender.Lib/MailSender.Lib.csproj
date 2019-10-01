@@ -48,6 +48,7 @@
     <Compile Include="DataBase.cs" />
     <Compile Include="DataProviders\InMemory\InRecipientsListDataProvider.cs" />
     <Compile Include="DataProviders\Linq2SQL\Linq2SQLBaseProvider.cs" />
+    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSheduledTaskDataProvider.cs" />
     <Compile Include="DataProviders\Linq2SQL\Linq2SQLSMTPServerDataProvider.cs" />
     <Compile Include="Data\Linq2SQL\MailSenderDB.cs">
       <DependentUpon>MailSenderDB.dbml</DependentUpon>

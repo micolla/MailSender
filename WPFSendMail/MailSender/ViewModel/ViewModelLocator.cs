@@ -49,7 +49,7 @@ namespace MailSender.ViewModel
             services.Register<ISenderDataProvider, Linq2SQLSenderDataProvider>();
             services.Register<IRecipientDataProvider, Linq2SQLRecipientDataProvider>();
             services.Register<ISMTPServerDataProvider, Linq2SQLSMTPServerDataProvider>();
-            services.Register<IRecipientsListDataProvider, InRecipientsListDataProvider>();
+            services.Register<ISheduledTaskDataProvider, Linq2SQLSheduledTaskDataProvider>();
             if (!services.IsRegistered<MailSenderDBDataContext>())
                 services.Register(() => new MailSenderDBDataContext());            
         }

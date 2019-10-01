@@ -55,7 +55,7 @@
                  Text="{Binding SelectedRecipient.Name, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
         <TextBox Grid.Column="1" Grid.Row="2">
             <TextBox.Text>
-                <Binding Path="SelectedRecipient.Address" NotifyOnValidationError="True">
+                <Binding Path="SelectedRecipient.Email" NotifyOnValidationError="True">
                     <Binding.ValidationRules>
                         <!-- ([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3}) -->
                         <validation:RegExValidationRule Pattern="\w+@\w+.\w+" ErrorMessage="Неверный формат адреса электронной почты"/>

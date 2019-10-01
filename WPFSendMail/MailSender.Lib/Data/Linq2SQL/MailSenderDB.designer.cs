@@ -42,6 +42,12 @@ namespace MailSender.Lib.Data.Linq2SQL
     partial void InsertRecipient(Recipient instance);
     partial void UpdateRecipient(Recipient instance);
     partial void DeleteRecipient(Recipient instance);
+    partial void InsertTask(Task instance);
+    partial void UpdateTask(Task instance);
+    partial void DeleteTask(Task instance);
+    partial void Insertmail(mail instance);
+    partial void Updatemail(mail instance);
+    partial void Deletemail(mail instance);
     #endregion
 		
 		public MailSenderDBDataContext() : 
@@ -103,6 +109,22 @@ namespace MailSender.Lib.Data.Linq2SQL
 			get
 			{
 				return this.GetTable<Recipient>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Task> Tasks
+		{
+			get
+			{
+				return this.GetTable<Task>();
+			}
+		}
+		
+		public System.Data.Linq.Table<mail> mails
+		{
+			get
+			{
+				return this.GetTable<mail>();
 			}
 		}
 	}
@@ -618,6 +640,298 @@ namespace MailSender.Lib.Data.Linq2SQL
 					this._description = value;
 					this.SendPropertyChanged("description");
 					this.OndescriptionChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Task")]
+	public partial class Task : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _task_id;
+		
+		private string _name;
+		
+		private System.Nullable<int> _sender_sender_id;
+		
+		private System.Nullable<int> _list_list_id;
+		
+		private System.Nullable<int> _mail_mail_id;
+		
+		private System.Nullable<int> _shdedule_shedule_id;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Ontask_idChanging(int value);
+    partial void Ontask_idChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void Onsender_sender_idChanging(System.Nullable<int> value);
+    partial void Onsender_sender_idChanged();
+    partial void Onlist_list_idChanging(System.Nullable<int> value);
+    partial void Onlist_list_idChanged();
+    partial void Onmail_mail_idChanging(System.Nullable<int> value);
+    partial void Onmail_mail_idChanged();
+    partial void Onshdedule_shedule_idChanging(System.Nullable<int> value);
+    partial void Onshdedule_shedule_idChanged();
+    #endregion
+		
+		public Task()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_task_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int task_id
+		{
+			get
+			{
+				return this._task_id;
+			}
+			set
+			{
+				if ((this._task_id != value))
+				{
+					this.Ontask_idChanging(value);
+					this.SendPropertyChanging();
+					this._task_id = value;
+					this.SendPropertyChanged("task_id");
+					this.Ontask_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(60)")]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sender_sender_id", DbType="Int")]
+		public System.Nullable<int> sender_sender_id
+		{
+			get
+			{
+				return this._sender_sender_id;
+			}
+			set
+			{
+				if ((this._sender_sender_id != value))
+				{
+					this.Onsender_sender_idChanging(value);
+					this.SendPropertyChanging();
+					this._sender_sender_id = value;
+					this.SendPropertyChanged("sender_sender_id");
+					this.Onsender_sender_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_list_list_id", DbType="Int")]
+		public System.Nullable<int> list_list_id
+		{
+			get
+			{
+				return this._list_list_id;
+			}
+			set
+			{
+				if ((this._list_list_id != value))
+				{
+					this.Onlist_list_idChanging(value);
+					this.SendPropertyChanging();
+					this._list_list_id = value;
+					this.SendPropertyChanged("list_list_id");
+					this.Onlist_list_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mail_mail_id", DbType="Int")]
+		public System.Nullable<int> mail_mail_id
+		{
+			get
+			{
+				return this._mail_mail_id;
+			}
+			set
+			{
+				if ((this._mail_mail_id != value))
+				{
+					this.Onmail_mail_idChanging(value);
+					this.SendPropertyChanging();
+					this._mail_mail_id = value;
+					this.SendPropertyChanged("mail_mail_id");
+					this.Onmail_mail_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_shdedule_shedule_id", DbType="Int")]
+		public System.Nullable<int> shdedule_shedule_id
+		{
+			get
+			{
+				return this._shdedule_shedule_id;
+			}
+			set
+			{
+				if ((this._shdedule_shedule_id != value))
+				{
+					this.Onshdedule_shedule_idChanging(value);
+					this.SendPropertyChanging();
+					this._shdedule_shedule_id = value;
+					this.SendPropertyChanged("shdedule_shedule_id");
+					this.Onshdedule_shedule_idChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.mails")]
+	public partial class mail : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _subject;
+		
+		private string _message;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnsubjectChanging(string value);
+    partial void OnsubjectChanged();
+    partial void OnmessageChanging(string value);
+    partial void OnmessageChanged();
+    #endregion
+		
+		public mail()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_subject", DbType="NVarChar(4000)")]
+		public string subject
+		{
+			get
+			{
+				return this._subject;
+			}
+			set
+			{
+				if ((this._subject != value))
+				{
+					this.OnsubjectChanging(value);
+					this.SendPropertyChanging();
+					this._subject = value;
+					this.SendPropertyChanged("subject");
+					this.OnsubjectChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_message", DbType="NVarChar(4000)")]
+		public string message
+		{
+			get
+			{
+				return this._message;
+			}
+			set
+			{
+				if ((this._message != value))
+				{
+					this.OnmessageChanging(value);
+					this.SendPropertyChanging();
+					this._message = value;
+					this.SendPropertyChanged("message");
+					this.OnmessageChanged();
 				}
 			}
 		}

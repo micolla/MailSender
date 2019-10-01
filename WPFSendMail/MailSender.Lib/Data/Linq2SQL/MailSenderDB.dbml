@@ -32,4 +32,21 @@
       <Column Name="description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Task" Member="Tasks">
+    <Type Name="Task">
+      <Column Name="task_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="sender_sender_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="list_list_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="mail_mail_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="shdedule_shedule_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.mails" Member="mails">
+    <Type Name="mail">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="subject" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="message" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>
