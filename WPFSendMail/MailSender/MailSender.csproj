@@ -93,6 +93,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\ValidationEnableConverter.cs" />
     <Compile Include="ValidationRules\RegExValidationRule.cs" />
     <Compile Include="ViewModel\BaseEditorVM\BaseEditorVM.cs" />
     <Compile Include="ViewModel\SenderEditorModel.cs" />
