@@ -50,7 +50,32 @@ namespace MailSender.lib.Tests
 
             #endregion
 
-            Assert.AreEqual(expected_result, actual_result);
+            Assert.AreEqual(expected_result, actual_result,"не совпадает");
+        }
+
+        [TestMethod]
+        public void Decode_DBC_TO_CAB()
+        {
+            // Принцип ААА
+            // A - Arrange
+            // A - Act
+            // A - Assert
+
+            #region Arrange
+
+            var str = "DBC";
+            var expected_result = "CAB";
+
+            #endregion
+
+            #region Act
+
+            var actual_result = PasswordDecoder.getPassword(str);
+
+            #endregion
+
+            StringAssert.Equals(expected_result, actual_result);
+            StringAssert.Contains(expected_result, actual_result);
         }
     }
 }
