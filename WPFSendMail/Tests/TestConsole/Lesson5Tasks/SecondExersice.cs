@@ -15,6 +15,7 @@ namespace TestConsole.Lesson5Tasks
         static string FileOutoutPath { get; set; }
         static readonly object __SyncRoot = new object();
         static bool _readDone = false;
+static AutoResetEvent waitHandler = new AutoResetEvent(true);
         public static void DoExercise(string fileInputPath, string fileOutputPath)
         {
             if (!File.Exists(fileInputPath)) return;
@@ -36,10 +37,9 @@ namespace TestConsole.Lesson5Tasks
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    lock (__SyncRoot)
-                    {
-                        _buffer.Add(line);
-                    }
+                    waitHandler.WaitOne();
+                    _buffer.Add(line);
+                    waitHandler.Set();
                 }
                 _readDone = true;
             }
@@ -52,11 +52,11 @@ namespace TestConsole.Lesson5Tasks
                 while(!_readDone|| _buffer.Count > 0)
                 {
                     if (_buffer.Count > 0)
-                        lock (__SyncRoot)
-                        {
-                            line = _buffer[0];
-                            _buffer.RemoveAt(0);
-                            sw.WriteLine(line);
+                        waitHandler.WaitOne();
+                        line = _buffer[0];
+                        _buffer.RemoveAt(0);
+                        waitHandler.Set();
+                        sw.WriteLine(line);
                         }
                 }
             }
