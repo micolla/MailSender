@@ -46,6 +46,10 @@
   <ItemGroup>
     <Compile Include="AppConfigClass.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="DataProviders\InMemory\InRecipientsListDataProvider.cs" />
+    <Compile Include="DataProviders\Linq2SQL\Linq2SQLBaseProvider.cs" />
+    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSheduledTaskDataProvider.cs" />
+    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSMTPServerDataProvider.cs" />
     <Compile Include="Data\Linq2SQL\MailSenderDB.cs">
       <DependentUpon>MailSenderDB.dbml</DependentUpon>
     </Compile>
@@ -54,6 +58,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MailSenderDB.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entity\Base\BaseEntity.cs" />
+    <Compile Include="Entity\Base\HumanEntity.cs" />
+    <Compile Include="Entity\Base\NamedEntity.cs" />
+    <Compile Include="Entity\Email.cs" />
+    <Compile Include="Entity\Mapping\SheduledTaskMapping.cs" />
+    <Compile Include="Entity\Recipient.cs" />
+    <Compile Include="Entity\RecipientsList.cs" />
+    <Compile Include="Entity\Sender.cs" />
+    <Compile Include="Entity\SheduledTask.cs" />
+    <Compile Include="Entity\SMTPServer.cs" />
     <Compile Include="MailSenderService.cs" />
     <Compile Include="MailSheduler.cs" />
     <Compile Include="PasswordDecoder.cs" />
@@ -64,9 +78,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SentState.cs" />
-    <Compile Include="Services\Interfaces\IDataProvider.cs" />
-    <Compile Include="Services\Linq2SQL\Linq2SSQLReipientDataProvider.cs" />
-    <Compile Include="Services\Linq2SQL\Linq2SSQLSenderDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\IDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\IEmailDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\IRecipientDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\IRecipientsListDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\ISenderDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\ISheduledTaskDataProvider.cs" />
+    <Compile Include="DataProviders\Interfaces\ISMTPServerDataProvider.cs" />
+    <Compile Include="DataProviders\Linq2SQL\Linq2SQLRecipientDataProvider.cs" />
+    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSenderDataProvider.cs" />
     <Compile Include="Task.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +104,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entity\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>

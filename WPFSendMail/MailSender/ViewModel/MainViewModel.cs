@@ -1,19 +1,23 @@
 using GalaSoft.MvvmLight;
-using MailSender.Lib.Services.Interfaces;
-using MailSender.Lib.Data.Linq2SQL;
+using MailSender.Lib.Entity;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using System;
 using MailSender.View;
+using MailSender.Lib.DataProviders.Interfaces;
+using MailSender.Lib.Entity.Base;
+using System.Collections.Generic;
+using MailServer.ViewModel;
+using System.Windows.Documents;
+using MailSender.Lib;
+using System.Windows;
 
 namespace MailSender.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        #region ChildVM
-        #endregion
-        public MainViewModel(IDataProvider<Sender> senderDataProvider, IDataProvider<Recipient> recipientDataProvider)
+        public MainViewModel(ISenderDataProvider senderDataProvider, IRecipientDataProvider recipientDataProvider, ISMTPServerDataProvider serverDataProvider)
         {
             #region Senders
             _senderDataProvider = senderDataProvider;
@@ -31,11 +35,88 @@ namespace MailSender.ViewModel
             UpdateRecipientCommand = new RelayCommand<Recipient>(OnUpdateRecipientCommand);
             DeleteRecipientCommand = new RelayCommand<Recipient>(OnDeleteRecipientCommand);
             #endregion
+            #region SMTPServer
+            _serverDataProvider = serverDataProvider;
+            RefreshServers();
+            AddServerCommand = new RelayCommand(OnAddServerCommand);
+            UpdateServerCommand = new RelayCommand<SMTPServer>(OnUpdateServerCommand);
+            DeleteServerCommand = new RelayCommand<SMTPServer>(OnDeleteServerCommand);
+            #endregion
+            #region SendMailNow
+            SendMailNow = new RelayCommand(OnSendMailNow);
+            #endregion
+            #region SheduledMail
+            CreateEmptyTask();            
+            AddShedulerTask = new RelayCommand(OnAddShedulerTask);
+            #endregion
         }
+
+        #region SMTPServer
+        private ISMTPServerDataProvider _serverDataProvider;
+        private ObservableCollection<SMTPServer> _Servers = new ObservableCollection<SMTPServer>();
+        public ObservableCollection<SMTPServer> Servers
+        {
+            get => _Servers;
+            set => Set(ref _Servers, value);
+        }
+        /// <summary>Выбранный отправитель</summary>
+        private SMTPServer _SelectedServer;
+
+        /// <summary>Выбранный отправитель</summary>
+        public SMTPServer SelectedServer
+        {
+            get => _SelectedServer;
+            set => Set(ref _SelectedServer, value);
+        }
+        public ICommand AddServerCommand { get; }
+        public ICommand UpdateServerCommand { get; }
+        public ICommand DeleteServerCommand { get; }
+        private void RefreshServers()
+        {
+            var servers = Servers;
+            Servers.Clear();
+            foreach (var server in _serverDataProvider.GetAll())
+                servers.Add(server);
+        }
+        private void OnDeleteServerCommand(SMTPServer obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnUpdateServerCommand(SMTPServer obj)
+        {
+            var saved = false;
+            var serverEditorVM = new ServerEditorVM(obj);
+            ServerEditorWindow editorWindow = new ServerEditorWindow();
+            editorWindow.DataContext = serverEditorVM;
+            serverEditorVM.Save += (o, e) => { saved = true; editorWindow.Close(); };
+            serverEditorVM.Canceled += (o, e) => { saved = false; editorWindow.Close(); };
+            editorWindow.ShowDialog();
+            if (saved)
+            {
+                _serverDataProvider.Update(obj.Id, obj);
+            }
+        }
+
+        private void OnAddServerCommand()
+        {
+            SMTPServer newServer= new SMTPServer();
+            var saved = false;
+            var serverEditorVM = new ServerEditorVM(newServer);
+            ServerEditorWindow senderEditorWindow = new ServerEditorWindow { DataContext = serverEditorVM };
+            serverEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            serverEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
+            senderEditorWindow.ShowDialog();
+            if (saved)
+            {
+                Servers.Add(newServer);
+                newServer.Id = _serverDataProvider.Add(newServer);
+            }
+        }
+        #endregion
         #region Senders
-        private IDataProvider<Sender> _senderDataProvider;
+        private ISenderDataProvider _senderDataProvider;
         private ObservableCollection<Sender> _Senders = new ObservableCollection<Sender>();
-        internal bool SenderChangeOK = false;
         public ObservableCollection<Sender> Senders
         {
             get => _Senders;
@@ -55,21 +136,33 @@ namespace MailSender.ViewModel
         private void OnAddSenderCommand()
         {
             Sender newSender = new Sender();
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(newSender);
+            var saved = false;
+            var senderEditorVM = new SenderEditorViewModel(newSender);
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow { DataContext = senderEditorVM };
+            senderEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            senderEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
             senderEditorWindow.ShowDialog();
-            if (senderEditorWindow.DialogResult.HasValue&& senderEditorWindow.DialogResult.Value)
+            if (saved)
             {
-                _senderDataProvider.Add(newSender);
-                _senderDataProvider.SaveChanges();
-                SenderChangeOK = false;
+                Senders.Add(newSender);
+                newSender.Id=_senderDataProvider.Add(newSender);
             }
         }
         public void OnUpdateSenderCommand(Sender sender)
         {
-            SenderEditorWindow senderEditorWindow = new SenderEditorWindow(sender);
+            var saved = false;
+            var senderEditorVM = new SenderEditorViewModel(sender);
+            SenderEditorWindow senderEditorWindow = new SenderEditorWindow();
+            senderEditorWindow.DataContext = senderEditorVM;
+            senderEditorVM.Save += (o, e) => { saved = true; senderEditorWindow.Close(); };
+            senderEditorVM.Canceled += (o, e) => { senderEditorWindow.Close(); };
             senderEditorWindow.ShowDialog();
+            if (saved)
+            {
+                _senderDataProvider.Update(sender.Id, sender);
+            }
         }
-        public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender);
+        public void OnDeleteSenderCommand(Sender sender) => _senderDataProvider.Delete(sender.Id,sender);
 
         public ICommand RefreshSendersCommand {get;}
         public ICommand AddSenderCommand { get; }
@@ -86,7 +179,7 @@ namespace MailSender.ViewModel
         }
         #endregion
         #region Recipients
-        private IDataProvider<Recipient> _recipientDataProvider;
+        private IRecipientDataProvider _recipientDataProvider;
         private ObservableCollection<Recipient> _Recipients = new ObservableCollection<Recipient>();
 
         public ObservableCollection<Recipient> Recipients
@@ -107,14 +200,12 @@ namespace MailSender.ViewModel
         private void OnRefreshRecipientCommand() => RefreshRecipients();
         private void OnAddRecipientCommand(Recipient recipient) => _recipientDataProvider.Add(recipient);
         public void OnUpdateRecipientCommand(Recipient recipient) => throw new NotImplementedException("OnUpdateRecipientCommand");
-        public void OnDeleteRecipientCommand(Recipient recipient) => _recipientDataProvider.Delete(recipient);
+        public void OnDeleteRecipientCommand(Recipient recipient) => _recipientDataProvider.Delete(recipient.Id,recipient);
 
         public ICommand RefreshRecipientsCommand { get; }
         public ICommand AddRecipientCommand { get; }
         public ICommand UpdateRecipientCommand { get; }
         public ICommand DeleteRecipientCommand { get; }
-
-
         private void RefreshRecipients()
         {
             var recipients = Recipients;
@@ -123,5 +214,61 @@ namespace MailSender.ViewModel
                 recipients.Add(recipient);
         }
         #endregion
+        #region Mail
+        private Email _Email = new Email();
+        public Email Email
+        {
+            get => _Email;
+            set => Set(ref _Email, value);
+        }
+        #endregion
+        #region SendMailNow
+        public ICommand SendMailNow { get; }
+        private void OnSendMailNow()
+        {
+                MailSenderService mailSenderService
+                    = new MailSenderService(SelectedSender, Email.Message, Email.Subject,SelectedServer);
+
+                SentState sentState
+                    = mailSenderService.SendMails(Recipients);
+            ShowState(sentState);
+        }
+
+        #endregion
+        #region SheduledTask
+        MailSheduler _mailSheduler = new MailSheduler();
+        public ICommand AddShedulerTask { get; }
+        private SheduledTask _SheduledTask = new SheduledTask();
+        public SheduledTask SheduledTask
+        {
+            get => _SheduledTask;
+            set => Set(ref _SheduledTask, value);
+        }
+        private void CreateEmptyTask()
+        {
+            SheduledTask.Email = Email;
+            RecipientsList recipientsList = new RecipientsList { Recipients= Recipients };
+            SheduledTask.RecipientsList = recipientsList;
+            SheduledTask.SMTPServer = SelectedServer;
+            SheduledTask.Sender = SelectedSender;
+        }
+        private void OnAddShedulerTask()
+        {
+            _mailSheduler.AddTask(SheduledTask);
+        }
+        #endregion
+        #region InformationWindow
+        private static void ShowState(SentState sentState)
+        {
+            WPFInformationMessage w = new WPFInformationMessage(sentState.IsOk ? "Успех!" : "Ошибка!", sentState.Message);
+            w.ShowDialog();
+        }
+        private static void ShowState(bool isOk, string Message)
+        {
+            WPFInformationMessage w = new WPFInformationMessage(isOk ? "Успех!" : "Ошибка!", Message);
+            w.ShowDialog();
+        }
+        #endregion
+        public ICommand ApplicationCloseCommand = new RelayCommand(() => Application.Current.Shutdown());
     }
 }

@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:MailSender"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="MailSender.WPFMailSender"
         xmlns:ctrl="clr-namespace:MailSender.View"
-        mc:Ignorable="d"
+    xmlns:listviewitemscheduler="clr-namespace:ListViewItemScheduler;assembly=ListViewItemScheduler"
+    mc:Ignorable="d"
         Title="WpfMailSender " Height="450" Width="800" MinHeight="450" MinWidth="800"
         DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
     <DockPanel>
@@ -17,7 +18,7 @@
                 <MenuItem Header="Открыть"/>
                 <MenuItem Header="Сохранить"/>
                 <Separator/>
-                <MenuItem Header="Выход" Click="ExitMenuItem_OnClick"/>
+                <MenuItem Header="Выход" Command="{Binding ApplicationCloseCommand}"/>
             </MenuItem>
             <MenuItem Header="Сервис">
                 <MenuItem Header="Параметры" IsEnabled="False"/>
@@ -43,18 +44,48 @@
                     </Grid.RowDefinitions>
                     <ToolBarTray Grid.Row="0">
                         <ToolBar>
-                            <ctrl:ToolBar />
-                            
+                            <ctrl:ListController PanelName="Отправители" 
+                                                 Items="{Binding Senders}"
+                                                 CreateCommand="{Binding AddSenderCommand}"
+                                                 EditCommand="{Binding UpdateSenderCommand}"
+                                                 DeleteCommand="{Binding DeleteSenderCommand}"
+                                                 SelectedItem="{Binding SelectedSender}">
+                                <ctrl:ListController.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Login}" Margin="3,0,0,0" Opacity="0.6"/>
+                                            <TextBlock Text="{Binding Email, StringFormat=:{0}}" Opacity="0.6"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ctrl:ListController.ItemTemplate>
+                            </ctrl:ListController>
                         </ToolBar>
                         <ToolBar>
-                            <TextBlock Text="Перейти в пларнировщик"/>
+                            <TextBlock Text="Перейти в планировщик"/>
                             <Button ToolTip="Планировщик" Click="GoToShedullerButton_Click">
                                 <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
                             </Button>
                         </ToolBar>
                         <ToolBar Band="1">
+                            <ctrl:ListController PanelName="Сервера" 
+                                                 Items="{Binding Servers}"
+                                                 SelectedItem="{Binding SelectedServer}"
+                                                 CreateCommand="{Binding AddServerCommand}"
+                                                 EditCommand="{Binding UpdateServerCommand}"
+                                                 DeleteCommand="{Binding DeleteServerCommand}">
+                                <ctrl:ListController.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Address}" Margin="3,0,0,0" Opacity="0.6"/>
+                                            <TextBlock Text="{Binding Port, StringFormat=:{0}}" Opacity="0.6"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ctrl:ListController.ItemTemplate>
+                            </ctrl:ListController>
+                        </ToolBar>
+                        <ToolBar Band="1">
                             <TextBlock Text="Список адресатов"/>
-                            <Button ToolTip="Добавить">
+                            <Button ToolTip="Добавить" Command="{Binding AddRecipientCommand}">
                                 <fa:ImageAwesome Height="18" Icon="Plus"/>
                             </Button>
                             <Button ToolTip="Изменить">
@@ -65,20 +96,18 @@
                             </Button>
                         </ToolBar>
                     </ToolBarTray>
-                    <DataGrid Grid.Row="1" x:Name="RecipientsGrid"
-                              AutoGenerateColumns="False"
-                              Width="Auto"
-                              HeadersVisibility="Column"
-                              IsReadOnly="True"
-                              ItemsSource="{Binding Recipients}">
-                        <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Header="Выбрать"/>
-                            <DataGridTextColumn Header="Id" Binding="{Binding recipient_id}"/>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding name}"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding email}"/>
-                            <DataGridTextColumn Header="описание" Binding="{Binding description}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <ctrl:RecipientsView Grid.Column="0" Margin="5"/>
+                        <ctrl:RecipientsEditor Grid.Column="1" Margin="5"/>
+                        <GridSplitter Grid.Column="1" Width="4" Background="Transparent"
+                                      VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                    </Grid>
+                    
                 </Grid>
             </TabItem>
             <TabItem Header="Планировщик">
@@ -90,19 +119,18 @@
                     <GroupBox Header="Управление" Grid.Column="0">
                         <StackPanel>
                             <TextBlock Text="Выберите дату"/>
-                            <xctk:TimePicker x:Name="SendMailDateTimePicker" Format="ShortTime"/>
+                            <xctk:TimePicker CurrentDateTimePart="{Binding SheduledTask.SheduledTime,Mode=TwoWay}" Format="ShortTime"/>
                             <StackPanel Margin="5">
-                                <Button x:Name="SendSheduledMail"
-                                    ToolTip="Отправить запланировано"
-                                        Click="SendSheduledMail_Click">
+                                <Button
+                                        ToolTip="Запланировать отправку"
+                                        Command="{Binding AddShedulerTask}">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="ClockOutline"/>
-                                        <TextBlock Text="Отправить запланировано"/>
+                                        <TextBlock Text="Запланировать отправку"/>
                                     </DockPanel>
                                 </Button>
                                 <Button ToolTip="Отправить сразу"
-                                        x:Name="SendMail"
-                                        Click="SendMailButton_Click">
+                                        Command="{Binding SendMailNow}">
                                     <DockPanel>
                                         <fa:ImageAwesome Height="18" Icon="SendOutline"/>
                                         <TextBlock Text="Отправить сразу"/>
@@ -112,53 +140,15 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания" Grid.Column="1">
-                        <ListBox HorizontalAlignment="Stretch">
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 1">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 2">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 3">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <GroupBox Header="Задание 4">
-                                    <StackPanel>
-                                        <TextBlock Text="Время"/>
-                                        <TextBlock Text="Сервер"/>
-                                        <TextBlock Text="Отправитль"/>
-                                        <TextBlock Text="Получатели"/>
-                                    </StackPanel>
-                                </GroupBox>
-                            </ListBoxItem>
-                        </ListBox>
+                        <listviewitemscheduler:ListViewItemSchedulerControl/>
                     </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Редактор писем">
-                <RichTextBox x:Name="MessageEditor"/>
+                <DockPanel>
+                    <TextBox ToolTip="Тема письма" DockPanel.Dock="Top" Text="{Binding Email.Subject}"/>
+                    <xctk:RichTextBox Text="{Binding Email.Message}"/>
+                </DockPanel>
             </TabItem>
             <TabItem Header="Статистика"  IsEnabled="False"/>
         </TabControl>

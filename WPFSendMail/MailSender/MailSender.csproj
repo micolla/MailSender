@@ -93,12 +93,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\ValidationEnableConverter.cs" />
+    <Compile Include="ValidationRules\RegExValidationRule.cs" />
+    <Compile Include="ViewModel\BaseEditorVM\BaseEditorVM.cs" />
     <Compile Include="ViewModel\SenderEditorModel.cs" />
+    <Compile Include="ViewModel\ServerEditorVM.cs" />
+    <Compile Include="View\ListController.xaml.cs">
+      <DependentUpon>ListController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipientsEditor.xaml.cs">
+      <DependentUpon>RecipientsEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipientsView.xaml.cs">
+      <DependentUpon>RecipientsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ServerEditorWindow.xaml.cs">
+      <DependentUpon>ServerEditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SenderEditorWindow.xaml.cs">
       <DependentUpon>SenderEditorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ToolBar.xaml.cs">
-      <DependentUpon>ToolBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -137,11 +150,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\SenderEditorWindow.xaml">
+    <Page Include="View\ListController.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ToolBar.xaml">
+    <Page Include="View\RecipientsEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RecipientsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ServerEditorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SenderEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,11 +184,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ListViewItemScheduler\ListViewItemScheduler.csproj">
+      <Project>{97df7ce8-127b-48d7-8b4b-bb97cd75c6a3}</Project>
+      <Name>ListViewItemScheduler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MailSender.Lib\MailSender.Lib.csproj">
       <Project>{81657f77-d7c4-45ad-9a79-86d77f502622}</Project>
       <Name>MailSender.Lib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

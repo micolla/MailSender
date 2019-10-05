@@ -1,47 +1,20 @@
 using GalaSoft.MvvmLight;
-using MailSender.Lib.Services.Interfaces;
-using MailSender.Lib.Data.Linq2SQL;
-using System.Collections.ObjectModel;
+using MailSender.Lib.Entity;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using System;
-using System.ComponentModel;
 using MailSender.Lib;
+using MailSender.ViewModel.BaseEditorVM;
 
 namespace MailSender.ViewModel
 {
-    public class SenderEditorViewModel : ViewModelBase
+    public class SenderEditorViewModel : BaseEditorVM<Sender>
     {
-        MainViewModel MainViewModel;
-
-        private Sender _Sender;
-
-        /// <summary>Выбранный получатель</summary>
-        public Sender Sender
+        public SenderEditorViewModel(Sender entity) : base(entity) { }
+        public string UserPassword
         {
-            get => _Sender;
-            set => Set(ref _Sender, value);
+            get => PasswordDecoder.getPassword(Entity.Password ?? String.Empty);
+            set => Entity.Password = PasswordDecoder.getCodPassword(value);
         }
-        public string SenderName
-        {
-            get => Sender.login;
-        }
-        public string UserPassword {
-            get => "11";// PasswordDecoder.getPassword(Sender.password)??String.Empty;
-            set=>Sender.password=PasswordDecoder.getCodPassword(value);
-        }
-
-        public ICommand SaveCommand;
-        public ICommand CancelCommand;
-
-        public SenderEditorViewModel(MainViewModel mainViewModel)
-        {
-            MainViewModel = mainViewModel;
-            SaveCommand = new RelayCommand(OnSaveCommand);
-            CancelCommand = new RelayCommand(OnSaveCommand);
-        }
-
-        private void OnSaveCommand() => MainViewModel.SenderChangeOK = true;
-        private void OnCancelCommand() => MainViewModel.SenderChangeOK = false;
     }
 }

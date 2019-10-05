@@ -16,8 +16,10 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MailSender.Lib.Data.Linq2SQL;
-using MailSender.Lib.Services.Linq2SQL;
-using MailSender.Lib.Services.Interfaces;
+using MailSender.Lib.DataProviders.Linq2SQL;
+using MailSender.Lib.DataProviders.Interfaces;
+using MailServer.ViewModel;
+using MailSender.Lib.DataProviders.InMemory;
 
 namespace MailSender.ViewModel
 {
@@ -44,15 +46,18 @@ namespace MailSender.ViewModel
             ////}
 
             services.Register<MainViewModel>();
-            services.Register<SenderEditorViewModel>();
-            services.Register<IDataProvider<Sender>, Linq2SSQLSenderDataProvider>();
-            services.Register<IDataProvider<Recipient>, Linq2SSQLReipientDataProvider>();
+            services.Register<ISenderDataProvider, Linq2SQLSenderDataProvider>();
+            services.Register<IRecipientDataProvider, Linq2SQLRecipientDataProvider>();
+            services.Register<ISMTPServerDataProvider, Linq2SQLSMTPServerDataProvider>();
+            services.Register<ISheduledTaskDataProvider, Linq2SQLSheduledTaskDataProvider>();
             if (!services.IsRegistered<MailSenderDBDataContext>())
                 services.Register(() => new MailSenderDBDataContext());            
         }
 
         public MainViewModel MainViewModel=>ServiceLocator.Current.GetInstance<MainViewModel>();
         public SenderEditorViewModel SenderEditorVM => ServiceLocator.Current.GetInstance<SenderEditorViewModel>();
+        public ServerEditorVM ServerEditorVM => ServiceLocator.Current.GetInstance<ServerEditorVM>();
+        
 
         public static void Cleanup()
         {

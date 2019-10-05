@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MailSender.Lib.Entity;
+using MailSender.Lib.Entity.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace MailSender.Lib
@@ -14,14 +14,6 @@ namespace MailSender.Lib
 
         public event Action<SentState> MailIsSend;
 
-        public MailSheduler(List<Task> tasks)
-        {
-            Tasks = tasks;
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-        }
         public MailSheduler()
         {
             Tasks = new List<Task>();
@@ -47,14 +39,15 @@ namespace MailSender.Lib
                 resultState = item.DoTask();
                 MailIsSend?.Invoke(resultState);
             }
+            Tasks.RemoveAll((r) => !r.IsActual);
         }
         /// <summary>
         /// Добавить задачу в рассмотрение
         /// </summary>
         /// <param name="task"></param>
-        public void AddTask(Task task)
+        public void AddTask(SheduledTask task)
         {
-            Tasks.Add(task);
+            Tasks.Add(task.ToTask());
         }
 
     }
