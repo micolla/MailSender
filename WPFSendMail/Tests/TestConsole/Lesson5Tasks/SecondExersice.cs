@@ -15,7 +15,7 @@ namespace TestConsole.Lesson5Tasks
         static string FileOutoutPath { get; set; }
         static readonly object __SyncRoot = new object();
         static bool _readDone = false;
-static AutoResetEvent waitHandler = new AutoResetEvent(true);
+        static AutoResetEvent waitHandler = new AutoResetEvent(true);
         public static void DoExercise(string fileInputPath, string fileOutputPath)
         {
             if (!File.Exists(fileInputPath)) return;
@@ -49,15 +49,14 @@ static AutoResetEvent waitHandler = new AutoResetEvent(true);
             using (StreamWriter sw = new StreamWriter(FileOutoutPath))
             {
                 string line;
-                while(!_readDone|| _buffer.Count > 0)
+                while (!_readDone || _buffer.Count > 0)
                 {
                     if (_buffer.Count > 0)
                         waitHandler.WaitOne();
-                        line = _buffer[0];
-                        _buffer.RemoveAt(0);
-                        waitHandler.Set();
-                        sw.WriteLine(line);
-                        }
+                    line = _buffer[0];
+                    _buffer.RemoveAt(0);
+                    waitHandler.Set();
+                    sw.WriteLine(line);
                 }
             }
         }

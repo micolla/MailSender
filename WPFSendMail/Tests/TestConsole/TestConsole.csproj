@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Lesson5Tasks\FirstExercise.cs" />
     <Compile Include="Lesson5Tasks\SecondExersice.cs" />
+    <Compile Include="Lesson6Tasks\Exercise1.cs" />
+    <Compile Include="Lesson6Tasks\Exercise2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,6 +56,14 @@
     <None Include="Lesson5Tasks\testdata.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lesson6Tasks\Files\file 2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lesson6Tasks\Files\file1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
