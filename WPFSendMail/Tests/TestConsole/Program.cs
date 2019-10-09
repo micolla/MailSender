@@ -13,7 +13,7 @@ namespace TestConsole
 
         static void Main(string[] args)
         {
-            int[,] result=DoFirst();
+            int[,] result=DoFirst().Result;
             //PrintArray(result);
             DoSecond();
             Console.ReadLine();
@@ -25,7 +25,7 @@ namespace TestConsole
             Task t = Task.Run(e.Calc);
             t.Wait();
         }
-        static int[,] DoFirst()
+        static async Task<int[,]> DoFirst()
         {
             int[,] first = new int[100, 100];
             int[,] second = new int[100, 100];
@@ -39,9 +39,8 @@ namespace TestConsole
                 }
             }
             Exercise1 e = new Exercise1(first, second);
-            var t = Task.Run(e.MultiplyMatrixAsync);
-            t.Wait();
-            return t.Result;
+            var t = await e.MultiplyMatrixAsync();
+            return t;
         }
 
         static void PrintArray(int[,] array)

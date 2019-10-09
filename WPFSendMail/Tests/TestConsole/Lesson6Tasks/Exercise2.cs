@@ -31,6 +31,7 @@ namespace TestConsole.Lesson6Tasks
 
         public async void Calc()
         {
+            Console.WriteLine("Файл");
             List<Task> tasks=new List<Task>();
             for (int i = 0; i < _files.Count; i++)
             {
@@ -79,12 +80,14 @@ namespace TestConsole.Lesson6Tasks
                 string line;
                 while (!_readDone || _buffer.Count > 0)
                 {
+                    waitHandler.WaitOne();
                     if (_buffer.Count > 0)
-                        waitHandler.WaitOne();
-                    line = _buffer[0];
-                    _buffer.RemoveAt(0);
-                    waitHandler.Set();
-                    await sw.WriteLineAsync(line);
+                    {
+                        line = _buffer[0];
+                        _buffer.RemoveAt(0);
+                        waitHandler.Set();
+                        await sw.WriteLineAsync(line);
+                    }
                 }
             }
         }
