@@ -14,8 +14,8 @@ namespace TestConsole
         static void Main(string[] args)
         {
             int[,] result=DoFirst().Result;
-            //PrintArray(result);
-            DoSecond();
+            PrintArray(result);
+            //DoSecond();
             Console.ReadLine();
         }
 
@@ -38,9 +38,7 @@ namespace TestConsole
                     second[i, j] = rnd.Next(0, 10);
                 }
             }
-            Exercise1 e = new Exercise1(first, second);
-            var t = await e.MultiplyMatrixAsync();
-            return t;
+            return await Exercise1.MultiplyMatrixAsync(first, second); 
         }
 
         static void PrintArray(int[,] array)
