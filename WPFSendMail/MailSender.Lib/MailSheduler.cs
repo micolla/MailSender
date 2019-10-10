@@ -9,14 +9,14 @@ namespace MailSender.Lib
 {
     public class MailSheduler
     {
-        List<Task> Tasks;
+        List<MailTask> Tasks;
         DispatcherTimer timer;
 
         public event Action<SentState> MailIsSend;
 
         public MailSheduler()
         {
-            Tasks = new List<Task>();
+            Tasks = new List<MailTask>();
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;

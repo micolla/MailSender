@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MailSender.Lib
 {
-    public class Task
+    public class MailTask
     {
         DateTime SheduledDate;
         MailSenderService MailSenderService;
@@ -14,7 +14,7 @@ namespace MailSender.Lib
         /// Признак, что задача еще актуальна
         /// </summary>
         public bool IsActual { get; private set; }
-        public Task(DateTime sheduledDate, MailSenderService mailSenderService)
+        public MailTask(DateTime sheduledDate, MailSenderService mailSenderService)
         {
             SheduledDate = sheduledDate;
             MailSenderService = mailSenderService;

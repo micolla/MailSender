@@ -5,14 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:local="clr-namespace:MailSender.View"
              xmlns:validation="clr-namespace:MailSender.ValidationRules"
-             xmlns:converters="clr-namespace:MailSender.Converters"
              xmlns:cc="clr-namespace:System.Windows.Converters;assembly=WindowsBase"
              DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"
              d:DesignHeight="365" d:DesignWidth="270">
-    <UserControl.Resources>
-        <converters:ValidationEnableConverter x:Key="ValidationEnableConverter"/>
-    </UserControl.Resources>
-
     <Grid Margin="3" Name="Control">
         <!-- Обработчик события ошибок валидации Validation.Error="OnDataValidationError" -->
         <Grid.Resources>

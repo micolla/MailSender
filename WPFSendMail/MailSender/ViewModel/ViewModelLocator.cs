@@ -20,6 +20,8 @@ using MailSender.Lib.DataProviders.Linq2SQL;
 using MailSender.Lib.DataProviders.Interfaces;
 using MailServer.ViewModel;
 using MailSender.Lib.DataProviders.InMemory;
+using MailSender.Lib.Data.EF;
+using MailSender.Lib.DataProviders.EF;
 
 namespace MailSender.ViewModel
 {
@@ -46,12 +48,14 @@ namespace MailSender.ViewModel
             ////}
 
             services.Register<MainViewModel>();
-            services.Register<ISenderDataProvider, Linq2SQLSenderDataProvider>();
-            services.Register<IRecipientDataProvider, Linq2SQLRecipientDataProvider>();
-            services.Register<ISMTPServerDataProvider, Linq2SQLSMTPServerDataProvider>();
-            services.Register<ISheduledTaskDataProvider, Linq2SQLSheduledTaskDataProvider>();
+            services.Register<ISenderDataProvider, EFSenderDataProvider>();
+            services.Register<IRecipientDataProvider, EFRecipientDataProvider>();
+            services.Register<ISMTPServerDataProvider, EFSMTPServerDataProvider>();
+            services.Register<ISheduledTaskDataProvider, EFSheduledTaskDataProvider>();
             if (!services.IsRegistered<MailSenderDBDataContext>())
-                services.Register(() => new MailSenderDBDataContext());            
+                services.Register(() => new MailSenderDBDataContext());
+            if (!services.IsRegistered<MailSenderDB>())
+                services.Register(() => new MailSenderDB());
         }
 
         public MainViewModel MainViewModel=>ServiceLocator.Current.GetInstance<MainViewModel>();
