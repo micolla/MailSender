@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListViewItemScheduler", "Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailSender.lib.Tests", "MailSender.lib.Tests\MailSender.lib.Tests.csproj", "{7B4F337F-5C9A-4CC9-8F47-4FCA7748A0A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketsSelling", "TicketsSelling\TicketsSelling.csproj", "{6036EB00-CFEF-4319-AC19-E7C345754284}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{7B4F337F-5C9A-4CC9-8F47-4FCA7748A0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B4F337F-5C9A-4CC9-8F47-4FCA7748A0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B4F337F-5C9A-4CC9-8F47-4FCA7748A0A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6036EB00-CFEF-4319-AC19-E7C345754284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6036EB00-CFEF-4319-AC19-E7C345754284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6036EB00-CFEF-4319-AC19-E7C345754284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6036EB00-CFEF-4319-AC19-E7C345754284}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2F9757D2-E048-4BB2-8D75-1D565BA48C07} = {2EF583D7-DF0C-4206-B19A-231D13457846}
 		{7B4F337F-5C9A-4CC9-8F47-4FCA7748A0A5} = {2EF583D7-DF0C-4206-B19A-231D13457846}
+		{6036EB00-CFEF-4319-AC19-E7C345754284} = {2EF583D7-DF0C-4206-B19A-231D13457846}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DC82118-DE10-489F-B0A4-AFCA26D7E41B}
