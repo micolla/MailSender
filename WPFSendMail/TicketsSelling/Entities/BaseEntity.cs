@@ -9,6 +9,7 @@ namespace TicketsSelling.Entities
 {
     public abstract class BaseEntity
     {
+        [Key]
         public int Id { get; set; }
         public DateTime InsertDTM { get; set; }
     }

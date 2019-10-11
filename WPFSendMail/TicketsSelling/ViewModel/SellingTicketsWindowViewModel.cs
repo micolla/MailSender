@@ -17,18 +17,16 @@ namespace TicketsSelling.ViewModel
             get => _FilmsSessions;
             set => Set(ref _FilmsSessions, value);
         }
-        public SellingTicketsWindowViewModel(Sell sell) : base(sell)
+        TicketBoxDB _db;
+        public SellingTicketsWindowViewModel(Sell sell,TicketBoxDB db) : base(sell)
         {
             WindowTitle = "Продажа билета";
+            _db = db;
             FilmsSessions = LoadSessions();
         }
         List<FilmSession> LoadSessions()
         {
-            using(var _db=new TicketBoxDB())
-            {
-                return _db.FilmSessions.ToList();
-            }
+            return _db.FilmSessions.ToList();
         }
-        
     }
 }

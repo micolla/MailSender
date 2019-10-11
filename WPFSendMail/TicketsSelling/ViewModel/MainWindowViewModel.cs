@@ -29,16 +29,18 @@ namespace TicketsSelling.ViewModel
         {
             Sell newSell = new Sell();
             var saved = false;
-            var sellingTicketsWindowVM = new SellingTicketsWindowViewModel(newSell);
-            SellingTicketsWindow addFilmSessionWindow =
-                new SellingTicketsWindow { DataContext = sellingTicketsWindowVM };
-            sellingTicketsWindowVM.Save += (o, e) => { saved = true; addFilmSessionWindow.Close(); };
-            sellingTicketsWindowVM.Canceled += (o, e) => { addFilmSessionWindow.Close(); };
-            addFilmSessionWindow.ShowDialog();
-            if (saved)
+            using (var _db = new TicketBoxDB())
             {
-                using (var _db = new TicketBoxDB())
+                var sellingTicketsWindowVM = new SellingTicketsWindowViewModel(newSell, _db);
+                SellingTicketsWindow addFilmSessionWindow =
+                    new SellingTicketsWindow { DataContext = sellingTicketsWindowVM };
+                sellingTicketsWindowVM.Save += (o, e) => { saved = true; addFilmSessionWindow.Close(); };
+                sellingTicketsWindowVM.Canceled += (o, e) => { addFilmSessionWindow.Close(); };
+                addFilmSessionWindow.ShowDialog();
+                if (saved)
                 {
+
+                    _db.Database.Log = msg => Console.WriteLine("EF: {0}\r\n-----------------", msg);
                     newSell.InsertDTM = DateTime.Now;
                     _db.Sells.Add(newSell);
                     _db.SaveChanges();
