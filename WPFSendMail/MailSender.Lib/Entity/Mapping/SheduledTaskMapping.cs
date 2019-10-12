@@ -2,9 +2,9 @@
 {
     public static class SheduledTaskMapping
     {
-        public static Task ToTask(this SheduledTask sheduledTask)
+        public static MailTask ToTask(this SheduledTask sheduledTask)
         {
-            return new Task(sheduledTask.SheduledTime,
+            return new MailTask(sheduledTask.SheduledTime,
                 new MailSenderService(
                     sheduledTask.Sender,
                     sheduledTask.Email.Subject,

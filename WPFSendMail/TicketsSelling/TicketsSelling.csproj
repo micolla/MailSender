@@ -5,18 +5,21 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{81657F77-D7C4-45AD-9A79-86D77F502622}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MailSender.Lib</RootNamespace>
-    <AssemblyName>MailSender.Lib</AssemblyName>
+    <ProjectGuid>{6036EB00-CFEF-4319-AC19-E7C345754284}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TicketsSelling</RootNamespace>
+    <AssemblyName>TicketsSelling</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,84 +46,80 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppConfigClass.cs" />
-    <Compile Include="DataBase.cs" />
-    <Compile Include="DataProviders\EF\EFBaseProvider.cs" />
-    <Compile Include="DataProviders\EF\EFRecipientDataProvider.cs" />
-    <Compile Include="DataProviders\EF\EFSenderDataProvider.cs" />
-    <Compile Include="DataProviders\EF\EFSheduledTaskDataProvider.cs" />
-    <Compile Include="DataProviders\EF\EFSMTPServerDataProvider.cs" />
-    <Compile Include="DataProviders\InMemory\InRecipientsListDataProvider.cs" />
-    <Compile Include="DataProviders\Linq2SQL\Linq2SQLBaseProvider.cs" />
-    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSheduledTaskDataProvider.cs" />
-    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSMTPServerDataProvider.cs" />
-    <Compile Include="Data\EF\MailSenderDB.cs" />
-    <Compile Include="Data\EF\Migrations\201910120738163_InitialMigration.cs" />
-    <Compile Include="Data\EF\Migrations\201910120738163_InitialMigration.designer.cs">
-      <DependentUpon>201910120738163_InitialMigration.cs</DependentUpon>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Data\EF\TicketBoxDB.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\FilmSession.cs" />
+    <Compile Include="Entities\Sell.cs" />
+    <Compile Include="ViewModel\AddFilmSessionWindowViewModel.cs" />
+    <Compile Include="ViewModel\BaseEditorVM\BaseEditorVM.cs" />
+    <Compile Include="ViewModel\SellingTicketsWindowViewModel.cs" />
+    <Compile Include="View\AddFilmSessionWindow.xaml.cs">
+      <DependentUpon>AddFilmSessionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data\EF\Migrations\Configuration.cs" />
-    <Compile Include="Data\Linq2SQL\MailSenderDB.cs">
-      <DependentUpon>MailSenderDB.dbml</DependentUpon>
+    <Compile Include="View\SellingTicketsWindow.xaml.cs">
+      <DependentUpon>SellingTicketsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data\Linq2SQL\MailSenderDB.designer.cs">
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MVVM\BaseViewModel.cs" />
+    <Compile Include="MVVM\LambdaCommand.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\AddFilmSessionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SellingTicketsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MailSenderDB.dbml</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Entity\Base\BaseEntity.cs" />
-    <Compile Include="Entity\Base\HumanEntity.cs" />
-    <Compile Include="Entity\Base\NamedEntity.cs" />
-    <Compile Include="Entity\Email.cs" />
-    <Compile Include="Entity\Mapping\SheduledTaskMapping.cs" />
-    <Compile Include="Entity\Recipient.cs" />
-    <Compile Include="Entity\RecipientsList.cs" />
-    <Compile Include="Entity\Sender.cs" />
-    <Compile Include="Entity\SheduledTask.cs" />
-    <Compile Include="Entity\SMTPServer.cs" />
-    <Compile Include="MailSenderService.cs" />
-    <Compile Include="MailSheduler.cs" />
-    <Compile Include="PasswordDecoder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SentState.cs" />
-    <Compile Include="DataProviders\Interfaces\IDataProvider.cs" />
-    <Compile Include="DataProviders\Interfaces\IEmailDataProvider.cs" />
-    <Compile Include="DataProviders\Interfaces\IRecipientDataProvider.cs" />
-    <Compile Include="DataProviders\Interfaces\IRecipientsListDataProvider.cs" />
-    <Compile Include="DataProviders\Interfaces\ISenderDataProvider.cs" />
-    <Compile Include="DataProviders\Interfaces\ISheduledTaskDataProvider.cs" />
-    <Compile Include="DataProviders\Interfaces\ISMTPServerDataProvider.cs" />
-    <Compile Include="DataProviders\Linq2SQL\Linq2SQLRecipientDataProvider.cs" />
-    <Compile Include="DataProviders\Linq2SQL\Linq2SQLSenderDataProvider.cs" />
-    <Compile Include="MailTask.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="Data\Linq2SQL\MailSenderDB.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>MailSenderDB.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Data\Linq2SQL\MailSenderDB.dbml.layout">
-      <DependentUpon>MailSenderDB.dbml</DependentUpon>
-    </None>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,13 +127,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\EF\Migrations\201910120738163_InitialMigration.resx">
-      <DependentUpon>201910120738163_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
