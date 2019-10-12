@@ -66,6 +66,11 @@
     <Compile Include="DataProviders\Linq2SQL\Linq2SQLSheduledTaskDataProvider.cs" />
     <Compile Include="DataProviders\Linq2SQL\Linq2SQLSMTPServerDataProvider.cs" />
     <Compile Include="Data\EF\MailSenderDB.cs" />
+    <Compile Include="Data\EF\Migrations\201910120738163_InitialMigration.cs" />
+    <Compile Include="Data\EF\Migrations\201910120738163_InitialMigration.designer.cs">
+      <DependentUpon>201910120738163_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\EF\Migrations\Configuration.cs" />
     <Compile Include="Data\Linq2SQL\MailSenderDB.cs">
       <DependentUpon>MailSenderDB.dbml</DependentUpon>
     </Compile>
@@ -121,7 +126,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Data\EF\Migrations\201910120738163_InitialMigration.resx">
+      <DependentUpon>201910120738163_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
